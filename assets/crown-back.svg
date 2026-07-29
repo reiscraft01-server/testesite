@@ -1,0 +1,49 @@
+<svg viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="innerGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8a6b1a"/>
+      <stop offset="40%" stop-color="#6b4c0a"/>
+      <stop offset="100%" stop-color="#3a2a05"/>
+    </linearGradient>
+    <linearGradient id="innerShade" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5a3f08"/>
+      <stop offset="50%" stop-color="#3a2a05"/>
+      <stop offset="100%" stop-color="#2a1a02"/>
+    </linearGradient>
+    <radialGradient id="innerDepth" cx="0.5" cy="0.4" r="0.6">
+      <stop offset="0%" stop-color="#2a1a02"/>
+      <stop offset="80%" stop-color="#1a0f01"/>
+      <stop offset="100%" stop-color="#0a0700"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Inner base band (hollow ring - seen from inside) -->
+  <rect x="8" y="32" width="48" height="10" rx="2" fill="url(#innerGold)" stroke="#2a1a02" stroke-width="0.5"/>
+
+  <!-- Inner shade on band -->
+  <rect x="8" y="36" width="48" height="6" rx="1" fill="url(#innerShade)" opacity="0.6"/>
+
+  <!-- Bottom rim from inside -->
+  <rect x="8" y="40" width="48" height="2" rx="1" fill="#1a0f01" opacity="0.7"/>
+
+  <!-- Inner left point (hollow concave) -->
+  <polygon points="12,32 18,10 24,32" fill="url(#innerShade)" stroke="#2a1a02" stroke-width="0.5"/>
+  <polygon points="14,32 18,14 22,32" fill="#1a0f01" opacity="0.4"/>
+
+  <!-- Inner center point (tallest, hollow) -->
+  <polygon points="24,32 32,4 40,32" fill="url(#innerShade)" stroke="#2a1a02" stroke-width="0.5"/>
+  <polygon points="26,32 32,8 38,32" fill="url(#innerDepth)" opacity="0.5"/>
+
+  <!-- Inner right point -->
+  <polygon points="40,32 46,10 52,32" fill="url(#innerShade)" stroke="#2a1a02" stroke-width="0.5"/>
+  <polygon points="42,32 46,14 50,32" fill="#1a0f01" opacity="0.4"/>
+
+  <!-- Deep hollow center (the "empty" space inside) -->
+  <ellipse cx="32" cy="34" rx="14" ry="4" fill="url(#innerDepth)" opacity="0.8"/>
+
+  <!-- Dark core - the void inside the crown -->
+  <ellipse cx="32" cy="36" rx="10" ry="3" fill="#0a0500" opacity="0.6"/>
+
+  <!-- Subtle light leak from top points -->
+  <polygon points="30,32 32,8 34,32" fill="rgba(180,140,40,.08)"/>
+</svg>
