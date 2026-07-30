@@ -695,6 +695,55 @@ footer { padding:40px 20px; background:rgba(0,0,0,.85); font-family:Arial,sans-s
 .discord-connect:hover { background:#4752C4; }
 
 /* ================= */
+/* SOCIAL ROW (Discord + TikTok) */
+/* ================= */
+
+.social-row {
+    display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:20px;
+}
+
+/* ================= */
+/* TIKTOK WIDGET */
+/* ================= */
+
+.tiktok-widget {
+    display:inline-flex; flex-direction:column; vertical-align:top;
+    width:300px; margin:15px; border-radius:20px;
+    border:2px solid #d4af37; box-shadow:0 0 30px black;
+    overflow:hidden; box-sizing:border-box;
+    background:rgba(10,10,10,.95);
+}
+
+.tiktok-header {
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:14px; background:#111;
+    border-bottom:1px solid #00f2ea;
+    font-family:'Press Start 2P',cursive; font-size:11px; color:#00f2ea;
+}
+
+.tiktok-feed {
+    height:400px; overflow-y:auto;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.5);
+}
+
+.tiktok-placeholder {
+    font-family:'Press Start 2P',cursive; font-size:11px;
+    color:#888; text-align:center; padding:20px;
+    line-height:1.8;
+}
+
+.tiktok-footer {
+    padding:10px; background:#1a1a1a;
+    font-family:Arial,sans-serif; font-size:12px; color:#555;
+    border-top:1px solid #333;
+}
+
+.tiktok-widget .mc-btn {
+    display:inline-block; font-size:10px !important; padding:10px 16px !important;
+}
+
+/* ================= */
 /* TITLES */
 /* ================= */
 
