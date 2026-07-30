@@ -207,6 +207,7 @@ section { padding:50px 20px; }
 
 h2 {
     color:#ffd700; font-size:32px; text-shadow:0 2px 10px rgba(0,0,0,.7);
+    font-family:'Cinzel',serif; letter-spacing:2px; text-transform:uppercase;
 }
 
 /* ================= */
@@ -218,7 +219,7 @@ h2 {
 .categoria-titulo {
     font-family:'Press Start 2P',cursive; font-size:22px;
     text-align:center; margin:30px 0 20px;
-    text-shadow:0 0 15px currentColor;
+    text-shadow:0 0 15px currentColor; letter-spacing:2px;
 }
 
 .categoria-grid {
@@ -249,9 +250,9 @@ h2 {
 
 .vip-img { width:140px; height:140px; object-fit:contain; }
 
-.vip h3 { color:#ffd700; font-size:22px; margin:12px 0 5px; word-break:keep-all; }
-.vip h4 { font-size:20px; margin:5px; }
-.vip-desc { color:#ccc; font-size:13px; margin:5px 15px; line-height:1.5; }
+.vip h3 { color:#ffd700; font-size:24px; margin:12px 0 5px; word-break:keep-all; font-family:'Cinzel',serif; letter-spacing:1px; }
+.vip h4 { font-size:22px; margin:5px; font-weight:bold; }
+.vip-desc { color:#ddd; font-size:14px; margin:5px 15px; line-height:1.5; }
 
 .vip .mc-btn { margin-top:auto; }
 
@@ -330,6 +331,42 @@ button:hover { background:#f5d76e; filter:brightness(1.05); }
 }
 
 .mc-btn-add { font-size:11px !important; padding:10px 16px !important; }
+
+/* ================= */
+/* KIT ORE HOVER EFFECTS */
+/* ================= */
+
+.vip[data-produto-id="vip_ferro"] .mc-btn:hover {
+    background:linear-gradient(135deg,#2a2a2a,#5a5a5a,#c0c0c0,#5a5a5a,#2a2a2a) !important;
+    border-color:rgba(192,192,192,.6) !important;
+    color:#fff !important;
+    text-shadow:0 0 8px rgba(192,192,192,.6),0 0 16px rgba(192,192,192,.3),1px 1px 0 #1a1a1a !important;
+    box-shadow:inset -2px -2px 0 #1a1a1a,inset 2px 2px 0 #e0e0e0,0 3px 0 #1a1a1a,0 4px 10px rgba(192,192,192,.3) !important;
+}
+
+.vip[data-produto-id="vip_diamante"] .mc-btn:hover {
+    background:linear-gradient(135deg,#003355,#0077aa,#00d4ff,#0077aa,#003355) !important;
+    border-color:rgba(0,212,255,.6) !important;
+    color:#fff !important;
+    text-shadow:0 0 8px rgba(0,212,255,.6),0 0 16px rgba(0,212,255,.3),1px 1px 0 #002244 !important;
+    box-shadow:inset -2px -2px 0 #002244,inset 2px 2px 0 #66e0ff,0 3px 0 #002244,0 4px 10px rgba(0,212,255,.3) !important;
+}
+
+.vip[data-produto-id="vip_netherite"] .mc-btn:hover {
+    background:linear-gradient(135deg,#2a0040,#5a1080,#b060ff,#5a1080,#2a0040) !important;
+    border-color:rgba(176,96,255,.6) !important;
+    color:#fff !important;
+    text-shadow:0 0 8px rgba(176,96,255,.6),0 0 16px rgba(176,96,255,.3),1px 1px 0 #1a0020 !important;
+    box-shadow:inset -2px -2px 0 #1a0020,inset 2px 2px 0 #d090ff,0 3px 0 #1a0020,0 4px 10px rgba(176,96,255,.3) !important;
+}
+
+.vip[data-produto-id="vip_rei"] .mc-btn:hover {
+    background:linear-gradient(135deg,#2a0040,#5a1080,#b060ff,#5a1080,#2a0040) !important;
+    border-color:rgba(255,215,0,.6) !important;
+    color:#ffd700 !important;
+    text-shadow:0 0 12px rgba(255,215,0,.8),0 0 24px rgba(255,200,0,.4),0 0 40px rgba(255,215,0,.2),1px 1px 0 #3a2500 !important;
+    box-shadow:inset -2px -2px 0 #1a0020,inset 2px 2px 0 #d090ff,0 3px 0 #1a0020,0 4px 10px rgba(255,215,0,.3),0 0 20px rgba(255,215,0,.1) !important;
+}
 
 .info-btn {
     font-family:'Press Start 2P',cursive; font-size:9px;
@@ -802,8 +839,8 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
 /* ================= */
 
 #mc-sobre,#mc-loja,#mc-servicos {
-    font-family:'Press Start 2P',cursive; font-size:24px;
-    letter-spacing:1px; word-break:break-word;
+    font-family:'Cinzel',serif; font-size:32px;
+    letter-spacing:2px; text-transform:uppercase; word-break:break-word;
     text-align:center; display:block; width:100%;
 }
 
@@ -827,12 +864,12 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
     h2 { font-size:22px; }
     section { padding:30px 12px; }
     #sobre { padding:16px; margin:15px auto; }
-    .categoria-titulo { font-size:14px; }
+    .categoria-titulo { font-size:16px; }
     .categoria-grid { gap:12px; }
     .vip { width:100%; max-width:320px; padding:16px; }
     .vip-image-box { height:130px; }
     .vip-img { width:100px; height:100px; }
-    .vip h3 { font-size:16px; }
+    .vip h3 { font-size:18px; }
     .mc-btn { width:90%; font-size:11px; padding:10px 16px; }
     .mc-btn-add { width:auto !important; }
     .info-btn { padding:6px 10px; font-size:7px; }
@@ -851,7 +888,7 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
     .sign-img { width:160px; }
     #resumo-panel { width:95%; }
     .loja-header { padding:12px 10px 8px; }
-    #mc-sobre,#mc-loja,#mc-servicos { font-size:16px; }
+    #mc-sobre,#mc-loja,#mc-servicos { font-size:18px; }
     .cart-header h2 { font-size:13px; }
     .toast { font-size:8px; white-space:normal; }
     .tiktok-card, .discord-widget { width:100%; margin:10px 0; }
@@ -883,7 +920,8 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
     .sign-img { width:120px; }
     h2 { font-size:18px; }
     .vip { padding:12px; }
-    .vip h3 { font-size:14px; }
+    .vip h3 { font-size:16px; }
+    .vip-desc { font-size:12px; }
     .tiktok-video { height:320px; }
     .discord-widget iframe { height:320px; }
 }
