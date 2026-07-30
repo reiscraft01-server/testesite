@@ -135,6 +135,8 @@ async function checkoutDireto(nickname, items) {
   window.location.href = checkoutUrl;
 }
 
+let steveCheckoutUrl = "";
+
 async function checkoutDiretoComSteve(nickname, items) {
   const token = CONFIG.tebex.publicToken;
   const baseUrl = CONFIG.site.obrigadoUrl + "?nick=" + encodeURIComponent(nickname);
@@ -184,7 +186,9 @@ async function checkoutDiretoComSteve(nickname, items) {
   await registrarPedido(nickname, items, basket.ident);
   salvarPedidoLocal(nickname);
 
-  window.location.href = checkoutUrl;
+  steveCheckoutUrl = checkoutUrl;
+  document.getElementById("steve-nick-display").textContent = nickname;
+  document.getElementById("steve-modal").style.display = "flex";
 }
 
 async function checkoutViaWorker(nickname, items) {
@@ -267,5 +271,9 @@ function validarNickname(input) {
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("nickname-input")?.addEventListener("input", function () {
     validarNickname(this);
+  });
+  document.getElementById("steve-continuar-btn")?.addEventListener("click", () => {
+    document.getElementById("steve-modal").style.display = "none";
+    window.location.href = steveCheckoutUrl;
   });
 });
