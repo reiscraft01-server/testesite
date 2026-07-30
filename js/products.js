@@ -7,7 +7,7 @@ const PRODUTOS = {
       {
         id: "vip_ferro",
         nome: "VIP Ferro",
-        preco: 15.99,
+        preco: 16.02,
         moeda: "USD",
         tebexId: 7588021,
         cor: "#c0c0c0",
@@ -28,7 +28,7 @@ const PRODUTOS = {
       {
         id: "vip_diamante",
         nome: "VIP Diamante",
-        preco: 18.99,
+        preco: 19.04,
         moeda: "USD",
         tebexId: 7588026,
         cor: "#00d4ff",
@@ -51,7 +51,7 @@ const PRODUTOS = {
       {
         id: "vip_netherite",
         nome: "VIP Netherite",
-        preco: 24.99,
+        preco: 25.03,
         moeda: "USD",
         tebexId: 7588030,
         cor: "#b060ff",
@@ -78,7 +78,7 @@ const PRODUTOS = {
       {
         id: "vip_rei",
         nome: "VIP Rei",
-        preco: 50,
+        preco: 50.07,
         moeda: "USD",
         tebexId: 7588032,
         cor: "#ffd700",
