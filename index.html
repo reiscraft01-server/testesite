@@ -13,7 +13,10 @@
 <body>
 
 <nav class="navbar">
-  <a href="#" class="nav-logo">Reis Craft</a>
+  <a href="#" class="nav-logo">
+    <img src="assets/logo.png" alt="Reis Craft" class="nav-logo-img">
+    REIS CRAFT
+  </a>
   <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">
     <span class="hamburger"></span>
   </button>
@@ -103,12 +106,15 @@
       </a>
     </div>
 
-
   </div>
 </section>
 
 <div id="cart-button" onclick="toggleCarrinho()">
-  <img src="assets/chest.png" alt="Baú" id="chest-icon">
+  <svg id="cart-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <path d="M16 10a4 4 0 0 1-8 0"/>
+  </svg>
   <span id="cart-count">0</span>
 </div>
 
@@ -116,12 +122,12 @@
 
 <div id="cart-panel">
   <div class="cart-header">
-    <h2>🏰 Baú do Reino</h2>
+    <h2>💎 Seu Pedido</h2>
     <span onclick="toggleCarrinho()" class="close-cart">✕</span>
   </div>
 
   <div class="cart-nickname">
-    <label for="nickname-input">👤 Nickname do Minecraft</label>
+    <label for="nickname-input">Nickname do Minecraft</label>
     <input
       type="text"
       id="nickname-input"
@@ -131,7 +137,6 @@
     >
   </div>
 
-  <div class="cart-decoration">💎 Seus itens selecionados 💎</div>
   <div id="cart-items"></div>
 
   <div class="cart-summary">
@@ -152,13 +157,13 @@
 
 <div id="resumo-panel">
   <div class="cart-header">
-    <h2>📜 Resumo do Pedido</h2>
+    <h2>💎 Resumo do Pedido</h2>
     <span onclick="fecharResumo()" class="close-cart">✕</span>
   </div>
 
   <div class="resumo-box">
     <div class="resumo-player">
-      <span class="resumo-label">👤 Jogador</span>
+      <span class="resumo-label">Jogador</span>
       <span class="resumo-valor" id="confirmacao-nick"></span>
     </div>
     <div id="cart-resumo-content"></div>
@@ -182,6 +187,7 @@
   </div>
 </div>
 
+<div id="portal-overlay"></div>
 <div id="toast-container"></div>
 
 <footer>

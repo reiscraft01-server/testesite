@@ -27,7 +27,7 @@ async function finalizarCompra() {
   document.getElementById("nickname-input").classList.remove("input-error");
 
   if (carrinho.quantidadeItens === 0) {
-    mostrarToast("⚠️ Seu baú está vazio!");
+    mostrarToast("⚠️ Carrinho vazio!");
     return;
   }
 

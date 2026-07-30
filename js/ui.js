@@ -19,7 +19,7 @@ function renderizarProdutos() {
           <div class="vip-image-box">
             <img src="${item.imagem}" class="vip-img" alt="${item.nome}" loading="lazy">
           </div>
-          <h3 style="color:${item.cor}">${item.icone} ${item.nome}</h3>
+          <h3 style="color:${item.cor}">${item.nome}</h3>
           <h4 class="preco-${item.id}" style="color:${item.cor}">${formatarPreco(item.preco)}</h4>
           <p class="vip-desc">${item.descricao}</p>
           <button class="mc-btn mc-btn-add" onclick="adicionarAoCarrinho('${item.id}')">
@@ -45,13 +45,13 @@ function renderizarCarrinho() {
   panel.innerHTML = "";
 
   if (carrinho.quantidadeItens === 0) {
-    panel.innerHTML = `<p class="cart-empty-msg">🗝️ Seu baú está vazio...</p>`;
+    panel.innerHTML = `<p class="cart-empty-msg">Seu carrinho está vazio</p>`;
   }
 
   if (state.vip) {
     panel.innerHTML += `
       <div class="cart-item" data-tipo="vip">
-        <span class="cart-item-icone">${state.vip.icone}</span>
+        <img class="cart-item-img" src="${state.vip.imagem}" alt="${state.vip.nome}">
         <div class="cart-item-info">
           <b style="color:${state.vip.cor}">${state.vip.nome}</b>
           <span class="cart-item-preco">${formatarPreco(state.vip.preco)}</span>
@@ -64,13 +64,13 @@ function renderizarCarrinho() {
     const home = getProduto("home");
     panel.innerHTML += `
       <div class="cart-item" data-tipo="home">
-        <span class="cart-item-icone">🏠</span>
+        <img class="cart-item-img" src="${home.imagem}" alt="Home Adicional">
         <div class="cart-item-info">
           <b>Home Adicional</b>
           <div class="cart-item-qtd">
-            <button onclick="alterarHome(-1)">➖</button>
+            <button onclick="alterarHome(-1)">−</button>
             <span>${state.homes}</span>
-            <button onclick="alterarHome(1)">➕</button>
+            <button onclick="alterarHome(1)">+</button>
           </div>
           <span class="cart-item-preco">${formatarPreco(home.preco * state.homes)}</span>
         </div>
@@ -82,7 +82,7 @@ function renderizarCarrinho() {
     const desban = getProduto("desban");
     panel.innerHTML += `
       <div class="cart-item" data-tipo="desban">
-        <span class="cart-item-icone">🔓</span>
+        <img class="cart-item-img" src="${desban.imagem}" alt="Seja Desbanido">
         <div class="cart-item-info">
           <b style="color:${desban.cor}">Seja Desbanido</b>
           <span class="cart-item-preco">${formatarPreco(desban.preco)}</span>
@@ -111,7 +111,7 @@ function renderizarResumo(nickname) {
   let html = `
     <div class="resumo-card">
       <div class="resumo-linha">
-        <span class="resumo-label">👤 Nickname</span>
+        <span class="resumo-label">Nickname</span>
         <span class="resumo-valor">${nickname}</span>
       </div>
   `;
@@ -119,13 +119,13 @@ function renderizarResumo(nickname) {
   if (state.vip) {
     html += `
       <div class="resumo-linha">
-        <span class="resumo-label">${state.vip.icone} VIP</span>
+        <span class="resumo-label">VIP</span>
         <span class="resumo-valor" style="color:${state.vip.cor}">${state.vip.nome} (${formatarPreco(state.vip.preco)})</span>
       </div>`;
   } else {
     html += `
       <div class="resumo-linha">
-        <span class="resumo-label">⚔ VIP</span>
+        <span class="resumo-label">VIP</span>
         <span class="resumo-valor" style="color:#666">Nenhum</span>
       </div>`;
   }
@@ -134,19 +134,19 @@ function renderizarResumo(nickname) {
     const home = getProduto("home");
     html += `
       <div class="resumo-linha">
-        <span class="resumo-label">🏠 Homes</span>
+        <span class="resumo-label">Homes</span>
         <span class="resumo-valor">${state.homes}x (${formatarPreco(home.preco * state.homes)})</span>
       </div>`;
   }
 
   html += `
     <div class="resumo-linha">
-      <span class="resumo-label">🔓 Desban</span>
+        <span class="resumo-label">Desban</span>
       <span class="resumo-valor">${state.desban ? "Sim (" + formatarPreco(getProduto("desban").preco) + ")" : "Não"}</span>
     </div>
     <div class="resumo-divider"></div>
     <div class="resumo-linha resumo-total">
-      <span class="resumo-label">💰 Total</span>
+        <span class="resumo-label">Total</span>
       <span class="resumo-valor">${formatarPreco(carrinho.total)}</span>
     </div>
   </div>`;
@@ -269,16 +269,6 @@ function mostrarToast(mensagem) {
 
 function atualizarInterface() {
   renderizarCarrinho();
-
-  const btnCarrinho = document.getElementById("cart-button");
-  if (!btnCarrinho) return;
-
-  const icone = btnCarrinho.querySelector("#chest-icon");
-  if (carrinho.quantidadeItens > 0) {
-    btnCarrinho.classList.add("has-items");
-  } else {
-    btnCarrinho.classList.remove("has-items");
-  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
