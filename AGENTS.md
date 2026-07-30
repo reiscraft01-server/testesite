@@ -3,8 +3,8 @@
 ## Content Filter / Username Strategy
 - Tebex API blocks usernames containing "pelo" (case-insensitive substring check)
 - Error: `{status:404, title:"Invalid Username provided"}`
-- **Current solution**: send `username: nickname` (real player nick); if 404 "Invalid Username", fallback to **direct checkout link** (`pay.tebex.io/checkout/{packageId}`)
-- **Nickname capture**: done via Tebex checkout page (Minecraft Username field Required) for filtered nicks; via API username for unfiltered nicks
+- **Current solution**: first try `username: nickname` (real player nick); if 404 "Invalid Username", **retry with** `username: "Steve"` + `variable_data: { nickname }` — user stays in normal checkout flow and types nick in Tebex's Minecraft Username field
+- **Nickname capture**: via API username (unfiltered nicks — `{nickname}` resolves in LP commands); via Tebex checkout page field (filtered nicks — Steve fallback)
 
 ## API Endpoints
 - Headless: `https://headless.tebex.io/api/accounts/{publicToken}/baskets` (POST)
