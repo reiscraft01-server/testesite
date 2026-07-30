@@ -747,7 +747,7 @@ footer { padding:40px 20px; background:rgba(0,0,0,.85); font-family:Arial,sans-s
 /* TITLES */
 /* ================= */
 
-#mc-sobre,#mc-loja {
+#mc-sobre,#mc-loja,#mc-servicos {
     font-family:'Press Start 2P',cursive; font-size:24px;
     letter-spacing:1px; word-break:break-word;
     text-align:center; display:block; width:100%;
@@ -789,7 +789,7 @@ footer { padding:40px 20px; background:rgba(0,0,0,.85); font-family:Arial,sans-s
     .sign-img { width:260px; }
     #resumo-panel { width:95%; }
     .loja-header { padding:14px 12px 10px; }
-    #mc-sobre,#mc-loja { font-size:18px; }
+    #mc-sobre,#mc-loja,#mc-servicos { font-size:18px; }
     .cart-header h2 { font-size:14px; }
     .toast { font-size:9px; white-space:normal; }
 }
