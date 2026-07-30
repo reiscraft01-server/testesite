@@ -77,101 +77,28 @@ async function confirmarCompra() {
 
 async function checkoutDireto(nickname, items) {
   const token = CONFIG.tebex.publicToken;
-
-  const criarBasket = async () => {
-    const baseUrl = CONFIG.site.obrigadoUrl + "?nick=" + encodeURIComponent(nickname);
-    const payload = {
-      username: nickname,
-      complete_url: baseUrl,
-      cancel_url: CONFIG.site.url + "/index.html?canceled=true",
-      complete_auto_redirect: true
-    };
-    console.log("[TEBEX] Criando basket:", payload);
-    const resp = await fetch(`https://headless.tebex.io/api/accounts/${token}/baskets`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    if (!resp.ok) {
-      const errText = await resp.text();
-      if (resp.status === 404 && errText.includes("Invalid Username")) {
-        console.warn("[TEBEX] Nickname bloqueado pelo filtro. Usando links diretos...");
-        return null;
-      }
-      throw new Error(`Tebex ${resp.status} ao criar basket: ${errText}`);
-    }
-    const data = await resp.json();
-    return data.data;
-  };
-
-  const adicionarPackage = async (basketIdent, packageId, qtd) => {
-    const payload = { package_id: String(packageId), quantity: qtd };
-    console.log("[TEBEX] Adicionando pacote:", payload);
-    const resp = await fetch(`https://headless.tebex.io/api/baskets/${basketIdent}/packages`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    if (!resp.ok) {
-      const err = await resp.text();
-      throw new Error(`Tebex ${resp.status} ao adicionar pacote ${packageId}: ${err}`);
-    }
-    return resp.json();
-  };
-
-  const basket = await criarBasket();
-
-  if (basket === null) {
-    await checkoutDiretoPorLink(nickname, items);
-    return;
-  }
-
-  let basketAtual;
-  for (const item of items) {
-    basketAtual = await adicionarPackage(basket.ident, item.package_id, item.quantity);
-  }
-
-  const checkoutUrl = basketAtual?.data?.links?.checkout;
-  if (!checkoutUrl) {
-    throw new Error("URL de checkout não encontrada. Verifique se a loja está ativa no Tebex.");
-  }
-
-  await registrarPedido(nickname, items, basket.ident);
-  salvarPedidoLocal(nickname);
-
-  window.location.href = checkoutUrl;
-}
-
-async function checkoutDiretoPorLink(nickname, items) {
-  if (items.length === 1) {
-    await registrarPedido(nickname, items, "direct");
-    salvarPedidoLocal(nickname);
-    mostrarToast("✅ Redirecionando para o checkout seguro...");
-    window.location.href = `https://pay.tebex.io/checkout/${items[0].package_id}?quantity=${items[0].quantity}`;
-    return;
-  }
-
-  mostrarToast("⏳ Preparando checkout combinado...");
-  const token = CONFIG.tebex.publicToken;
   const baseUrl = CONFIG.site.obrigadoUrl + "?nick=" + encodeURIComponent(nickname);
 
-  const resp = await fetch(`https://headless.tebex.io/api/accounts/${token}/baskets`, {
+  console.log("[TEBEX] Criando basket... (usando Steve como username fixo)");
+  const basketResp = await fetch(`https://headless.tebex.io/api/accounts/${token}/baskets`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      username: "_",
+      username: "Steve",
       complete_url: baseUrl,
       cancel_url: CONFIG.site.url + "/index.html?canceled=true",
       complete_auto_redirect: true
     })
   });
-  if (!resp.ok) {
-    const err = await resp.text();
-    throw new Error(`Tebex ${resp.status} ao criar basket combinado: ${err}`);
+  if (!basketResp.ok) {
+    const err = await basketResp.text();
+    throw new Error(`Tebex ${basketResp.status} ao criar basket: ${err}`);
   }
-  const basket = (await resp.json()).data;
+  const basket = (await basketResp.json()).data;
 
+  let basketAtual;
   for (const item of items) {
+    console.log("[TEBEX] Adicionando pacote:", item.package_id);
     const pkgResp = await fetch(`https://headless.tebex.io/api/baskets/${basket.ident}/packages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -181,15 +108,12 @@ async function checkoutDiretoPorLink(nickname, items) {
       const err = await pkgResp.text();
       throw new Error(`Tebex ${pkgResp.status} ao adicionar pacote ${item.package_id}: ${err}`);
     }
+    basketAtual = await pkgResp.json();
   }
 
-  const basketResp = await (await fetch(`https://headless.tebex.io/api/baskets/${basket.ident}`, {
-    headers: { "Content-Type": "application/json" }
-  })).json();
-
-  const checkoutUrl = basketResp?.data?.links?.checkout;
+  const checkoutUrl = basketAtual?.data?.links?.checkout;
   if (!checkoutUrl) {
-    throw new Error("URL de checkout não encontrada para o basket combinado.");
+    throw new Error("URL de checkout não encontrada. Verifique se a loja está ativa no Tebex.");
   }
 
   await registrarPedido(nickname, items, basket.ident);

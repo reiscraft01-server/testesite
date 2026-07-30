@@ -1,15 +1,11 @@
 # Tebex Headless API Notes
 
-## Content Filter
+## Content Filter / Username Strategy
 - Tebex API blocks usernames containing "pelo" (case-insensitive substring check)
 - Error: `{status:404, title:"Invalid Username provided"}`
-- Even "pel0" (leet speak) is blocked
-- Even mid-word like "TudoPelos_Cara" is blocked
-- Geyser dot prefix (.TudoPelosCara) does NOT bypass
-- `player: {name, auth_type:"offline"}` bypasses the filter but creates anonymous basket (username=null, username_id=null) → packages can't be added ("User must login before adding packages to basket")
-- No PATCH/PUT endpoint exists to update basket username after creation
-- Direct checkout URLs (`https://pay.tebex.io/checkout/{packageId}`) bypass the API filter entirely (user enters nickname on Tebex's page)
-- Solution in `checkout.js`: try `username` format, catch 404 "Invalid Username", fallback to direct checkout links
+- **Current solution**: always send `username: "Steve"` in basket creation (valid Mojang name, no filter trigger)
+- **Nickname capture**: done exclusively via **Tebex checkout page** (Minecraft Username field set to Required in Tebex panel)
+- No fallback/filter logic needed in checkout.js — basket always succeeds with "Steve"
 
 ## API Endpoints
 - Headless: `https://headless.tebex.io/api/accounts/{publicToken}/baskets` (POST)
