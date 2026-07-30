@@ -6,7 +6,11 @@ const CONFIG = {
   },
   site: {
     url: window.location.origin,
-    obrigadoUrl: window.location.origin + "/obrigado.html"
+    obrigadoUrl: (() => {
+      const path = window.location.pathname;
+      const base = path.substring(0, path.lastIndexOf("/") + 1);
+      return window.location.origin + base + "obrigado.html";
+    })()
   },
   supabase: {
     url: "https://pnycyhwostszwwfgqgyf.supabase.co",
