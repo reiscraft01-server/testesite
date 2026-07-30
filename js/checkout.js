@@ -102,7 +102,7 @@ async function checkoutDireto(nickname, items) {
     const pkgResp = await fetch(`https://headless.tebex.io/api/baskets/${basket.ident}/packages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ package_id: String(item.package_id), quantity: item.quantity })
+      body: JSON.stringify({ package_id: String(item.package_id), quantity: item.quantity, variable_data: [{ identifier: "nickname", value: nickname }] })
     });
     if (!pkgResp.ok) {
       const err = await pkgResp.text();
