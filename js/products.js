@@ -7,7 +7,7 @@ const PRODUTOS = {
       {
         id: "vip_ferro",
         nome: "VIP Ferro",
-        preco: 1.95,
+        preco: 15.99,
         moeda: "USD",
         tebexId: 7588021,
         cor: "#c0c0c0",
@@ -28,7 +28,7 @@ const PRODUTOS = {
       {
         id: "vip_diamante",
         nome: "VIP Diamante",
-        preco: 3.52,
+        preco: 18.99,
         moeda: "USD",
         tebexId: 7588026,
         cor: "#00d4ff",
@@ -51,7 +51,7 @@ const PRODUTOS = {
       {
         id: "vip_netherite",
         nome: "VIP Netherite",
-        preco: 4.89,
+        preco: 24.99,
         moeda: "USD",
         tebexId: 7588030,
         cor: "#b060ff",
@@ -78,7 +78,7 @@ const PRODUTOS = {
       {
         id: "vip_rei",
         nome: "VIP Rei",
-        preco: 9.78,
+        preco: 50,
         moeda: "USD",
         tebexId: 7588032,
         cor: "#ffd700",
@@ -147,5 +147,5 @@ function getProduto(id) {
 }
 
 function formatarPreco(valor) {
-  return "$" + valor.toFixed(2);
+  return "R$ " + valor.toFixed(2).replace(".", ",");
 }

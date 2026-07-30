@@ -683,7 +683,7 @@ footer { padding:40px 20px; background:rgba(0,0,0,.85); font-family:Arial,sans-s
     overflow:hidden; box-sizing:border-box;
 }
 
-.discord-widget iframe { display:block; width:100%; height:500px; }
+.discord-widget iframe { display:block; width:100%; height:580px; }
 
 .discord-connect {
     display:flex; align-items:center; justify-content:center; gap:8px;
@@ -713,8 +713,8 @@ footer { padding:40px 20px; background:rgba(0,0,0,.85); font-family:Arial,sans-s
     font-family:'Press Start 2P',cursive; font-size:10px; color:#00f2ea;
 }
 
-.tiktok-video iframe {
-    display:block; width:100%; aspect-ratio:9/16; border:none;
+.tiktok-video .tiktok-embed {
+    display:block; width:100%; min-height:580px;
 }
 
 .tiktok-btn {
