@@ -786,8 +786,13 @@ footer { padding:40px 20px; background:rgba(0,0,0,.85); font-family:Arial,sans-s
     #cart-panel { width:100%; right:-100%; }
     #cart-button { width:56px; height:56px; right:12px; bottom:12px; }
     #cart-count { font-size:7px; min-width:14px; height:14px; line-height:14px; top:-2px; right:-2px; }
-    .portal-card { width:100%; height:auto; max-width:none; padding:14px 10px; }
-    .sign-img { width:200px; }
+    .portal-card { width:100%; height:auto; max-width:none; padding:55px 10px 14px; }
+    .server-ip { font-size:9px; padding:8px 10px; word-break:break-all; overflow-wrap:break-word; }
+    .server-port { font-size:9px; margin-top:4px; }
+    .portal-edition h3 { font-size:9px; margin-bottom:4px; }
+    .portal-editions { gap:8px; }
+    .portal-edition .mc-btn { font-size:7px !important; padding:6px 8px; margin-top:6px; }
+    .sign-img { width:160px; }
     #resumo-panel { width:95%; }
     .loja-header { padding:12px 10px 8px; }
     #mc-sobre,#mc-loja,#mc-servicos { font-size:16px; }
