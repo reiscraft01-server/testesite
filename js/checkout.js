@@ -78,25 +78,14 @@ async function confirmarCompra() {
 async function checkoutDireto(nickname, items) {
   const token = CONFIG.tebex.publicToken;
 
-  const criarBasket = async (usarPlayerFallback) => {
+  const criarBasket = async () => {
     const baseUrl = CONFIG.site.obrigadoUrl + "?nick=" + encodeURIComponent(nickname);
-    let payload;
-    if (usarPlayerFallback) {
-      payload = {
-        username: "Player",
-        player: { name: nickname, auth_type: "offline" },
-        complete_url: baseUrl,
-        cancel_url: CONFIG.site.url + "/index.html?canceled=true",
-        complete_auto_redirect: true
-      };
-    } else {
-      payload = {
-        username: nickname,
-        complete_url: baseUrl,
-        cancel_url: CONFIG.site.url + "/index.html?canceled=true",
-        complete_auto_redirect: true
-      };
-    }
+    const payload = {
+      username: nickname,
+      complete_url: baseUrl,
+      cancel_url: CONFIG.site.url + "/index.html?canceled=true",
+      complete_auto_redirect: true
+    };
     console.log("[TEBEX] Criando basket:", payload);
     const resp = await fetch(`https://headless.tebex.io/api/accounts/${token}/baskets`, {
       method: "POST",
@@ -105,9 +94,9 @@ async function checkoutDireto(nickname, items) {
     });
     if (!resp.ok) {
       const errText = await resp.text();
-      if (!usarPlayerFallback && resp.status === 404 && errText.includes("Invalid Username")) {
-        console.warn("[TEBEX] Nickname bloqueado pelo filtro. Retentando com player object...");
-        return criarBasket(true);
+      if (resp.status === 404 && errText.includes("Invalid Username")) {
+        console.warn("[TEBEX] Nickname bloqueado pelo filtro. Usando links diretos...");
+        return null;
       }
       throw new Error(`Tebex ${resp.status} ao criar basket: ${errText}`);
     }
@@ -132,6 +121,11 @@ async function checkoutDireto(nickname, items) {
 
   const basket = await criarBasket();
 
+  if (basket === null) {
+    await checkoutDiretoPorLink(nickname, items);
+    return;
+  }
+
   let basketAtual;
   for (const item of items) {
     basketAtual = await adicionarPackage(basket.ident, item.package_id, item.quantity);
@@ -146,6 +140,22 @@ async function checkoutDireto(nickname, items) {
   salvarPedidoLocal(nickname);
 
   window.location.href = checkoutUrl;
+}
+
+async function checkoutDiretoPorLink(nickname, items) {
+  await registrarPedido(nickname, items, "direct");
+  salvarPedidoLocal(nickname);
+
+  if (items.length === 1) {
+    const item = items[0];
+    mostrarToast("✅ Redirecionando para o checkout seguro...");
+    window.location.href = `https://pay.tebex.io/checkout/${item.package_id}?quantity=${item.quantity}`;
+  } else {
+    mostrarToast("✅ Abrindo checkouts em novas abas...");
+    for (const item of items) {
+      window.open(`https://pay.tebex.io/checkout/${item.package_id}?quantity=${item.quantity}`, "_blank");
+    }
+  }
 }
 
 async function checkoutViaWorker(nickname, items) {
