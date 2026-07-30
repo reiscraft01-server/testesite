@@ -3,9 +3,8 @@
 ## Content Filter / Username Strategy
 - Tebex API blocks usernames containing "pelo" (case-insensitive substring check)
 - Error: `{status:404, title:"Invalid Username provided"}`
-- **Current solution**: always send `username: "Steve"` in basket creation (valid Mojang name, no filter trigger)
-- **Nickname capture**: done exclusively via **Tebex checkout page** (Minecraft Username field set to Required in Tebex panel)
-- No fallback/filter logic needed in checkout.js — basket always succeeds with "Steve"
+- **Current solution**: send `username: nickname` (real player nick); if 404 "Invalid Username", fallback to **direct checkout link** (`pay.tebex.io/checkout/{packageId}`)
+- **Nickname capture**: done via Tebex checkout page (Minecraft Username field Required) for filtered nicks; via API username for unfiltered nicks
 
 ## API Endpoints
 - Headless: `https://headless.tebex.io/api/accounts/{publicToken}/baskets` (POST)
