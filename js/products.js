@@ -112,7 +112,7 @@ const PRODUTOS = {
       {
         id: "home",
         nome: "Home Adicional",
-        preco: 0.49,
+        preco: 2.51,
         moeda: "USD",
         tebexId: 7588036,
         maxQtd: null,
@@ -124,7 +124,7 @@ const PRODUTOS = {
       {
         id: "desban",
         nome: "Seja Desbanido",
-        preco: 9.78,
+        preco: 50.05,
         moeda: "USD",
         tebexId: 7588047,
         maxQtd: 1,
