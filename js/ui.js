@@ -9,11 +9,13 @@ function renderizarProdutos() {
     </div>
   `;
 
-  for (const [chave, categoria] of Object.entries(PRODUTOS)) {
-    html += `<div class="categoria-wrapper"><h3 class="categoria-titulo" style="color:${categoria.cor}">${categoria.titulo}</h3><div class="categoria-grid">`;
-    for (const item of categoria.itens) {
-      html += `
-        <div class="vip" data-produto-id="${item.id}">
+    for (const [chave, categoria] of Object.entries(PRODUTOS)) {
+      html += `<div class="categoria-wrapper"><h3 class="categoria-titulo" style="color:${categoria.cor}">${categoria.titulo}</h3><div class="categoria-grid">`;
+      for (let i = 0; i < categoria.itens.length; i++) {
+        const item = categoria.itens[i];
+        const delay = i * 0.08;
+        html += `
+        <div class="vip${item.id === 'vip_rei' ? ' recomendado' : ''}" data-produto-id="${item.id}" style="animation:fadeUp .5s ease ${delay}s both">
           <div class="vip-image-box">
             <img src="${item.imagem}" class="vip-img" alt="${item.nome}" loading="lazy">
           </div>
