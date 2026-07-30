@@ -89,6 +89,7 @@ async function checkoutDireto(nickname, items) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       username: "Steve",
+      variable_data: { nickname: nickname },
       complete_url: baseUrl,
       cancel_url: CONFIG.site.url + "/index.html?canceled=true",
       complete_auto_redirect: true
