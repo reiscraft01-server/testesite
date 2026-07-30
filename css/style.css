@@ -722,7 +722,7 @@ footer { padding:40px 20px; background:rgba(0,0,0,.85); font-family:Arial,sans-s
 }
 
 .tiktok-feed {
-    height:500px; overflow-y:auto;
+    height:455px; overflow-y:auto;
     display:flex; align-items:center; justify-content:center;
     background:rgba(0,0,0,.5);
 }
