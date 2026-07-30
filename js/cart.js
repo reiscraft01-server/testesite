@@ -96,13 +96,13 @@ class Carrinho {
   getItemsParaTebex() {
     const items = [];
     if (this.state.vip) {
-      items.push({ package_id: String(this.state.vip.tebexId), quantity: 1 });
+      items.push({ package_id: this.state.vip.tebexId, quantity: 1 });
     }
     if (this.state.homes > 0) {
-      items.push({ package_id: String(getProduto("home").tebexId), quantity: this.state.homes });
+      items.push({ package_id: getProduto("home").tebexId, quantity: this.state.homes });
     }
     if (this.state.desban) {
-      items.push({ package_id: String(getProduto("desban").tebexId), quantity: 1 });
+      items.push({ package_id: getProduto("desban").tebexId, quantity: 1 });
     }
     return items;
   }
