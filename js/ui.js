@@ -5,7 +5,7 @@ function renderizarProdutos() {
   let html = `
     <div class="loja-header">
       <h2 id="mc-loja">Loja Reis Craft</h2>
-      <p id="mc-loja-desc">Monte seu pedido e finalize com a Tebex.</p>
+      <p id="mc-loja-desc">Fortaleça seu império. Kits lendários te aguardam.</p>
     </div>
   `;
 
