@@ -94,24 +94,26 @@ async function checkoutDireto(nickname, items) {
       complete_auto_redirect: true
     })
   });
-  if (!basketResp.ok) {
-    const err = await basketResp.text();
-    throw new Error(`Tebex ${basketResp.status} ao criar basket: ${err}`);
-  }
-  const basket = (await basketResp.json()).data;
-
-  let basketAtual;
-  for (const item of items) {
-    console.log("[TEBEX] Adicionando pacote:", item.package_id);
-    const pkgResp = await fetch(`https://headless.tebex.io/api/baskets/${basket.ident}/packages`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ package_id: String(item.package_id), quantity: item.quantity, variable_data: [{ identifier: "nickname", value: nickname }] })
-    });
-    if (!pkgResp.ok) {
-      const err = await pkgResp.text();
-      throw new Error(`Tebex ${pkgResp.status} ao adicionar pacote ${item.package_id}: ${err}`);
+    if (!basketResp.ok) {
+      const err = await basketResp.text();
+      const msg = err.includes("<!DOCTYPE") ? "Erro interno do servidor de pagamento" : err;
+      throw new Error(`Tebex ${basketResp.status} ao criar basket: ${msg}`);
     }
+    const basket = (await basketResp.json()).data;
+
+    let basketAtual;
+    for (const item of items) {
+      console.log("[TEBEX] Adicionando pacote:", item.package_id);
+      const pkgResp = await fetch(`https://headless.tebex.io/api/baskets/${basket.ident}/packages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ package_id: String(item.package_id), quantity: item.quantity, variable_data: { nickname: nickname } })
+      });
+      if (!pkgResp.ok) {
+        const err = await pkgResp.text();
+        const msg = err.includes("<!DOCTYPE") ? "Erro interno do servidor de pagamento" : err;
+        throw new Error(`Tebex ${pkgResp.status} ao adicionar pacote ${item.package_id}: ${msg}`);
+      }
     basketAtual = await pkgResp.json();
   }
 
