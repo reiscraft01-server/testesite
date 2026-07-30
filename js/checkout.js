@@ -143,19 +143,59 @@ async function checkoutDireto(nickname, items) {
 }
 
 async function checkoutDiretoPorLink(nickname, items) {
-  await registrarPedido(nickname, items, "direct");
-  salvarPedidoLocal(nickname);
-
   if (items.length === 1) {
-    const item = items[0];
+    await registrarPedido(nickname, items, "direct");
+    salvarPedidoLocal(nickname);
     mostrarToast("✅ Redirecionando para o checkout seguro...");
-    window.location.href = `https://pay.tebex.io/checkout/${item.package_id}?quantity=${item.quantity}`;
-  } else {
-    mostrarToast("✅ Abrindo checkouts em novas abas...");
-    for (const item of items) {
-      window.open(`https://pay.tebex.io/checkout/${item.package_id}?quantity=${item.quantity}`, "_blank");
+    window.location.href = `https://pay.tebex.io/checkout/${items[0].package_id}?quantity=${items[0].quantity}`;
+    return;
+  }
+
+  mostrarToast("⏳ Preparando checkout combinado...");
+  const token = CONFIG.tebex.publicToken;
+  const baseUrl = CONFIG.site.obrigadoUrl + "?nick=" + encodeURIComponent(nickname);
+
+  const resp = await fetch(`https://headless.tebex.io/api/accounts/${token}/baskets`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username: "_",
+      complete_url: baseUrl,
+      cancel_url: CONFIG.site.url + "/index.html?canceled=true",
+      complete_auto_redirect: true
+    })
+  });
+  if (!resp.ok) {
+    const err = await resp.text();
+    throw new Error(`Tebex ${resp.status} ao criar basket combinado: ${err}`);
+  }
+  const basket = (await resp.json()).data;
+
+  for (const item of items) {
+    const pkgResp = await fetch(`https://headless.tebex.io/api/baskets/${basket.ident}/packages`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ package_id: String(item.package_id), quantity: item.quantity })
+    });
+    if (!pkgResp.ok) {
+      const err = await pkgResp.text();
+      throw new Error(`Tebex ${pkgResp.status} ao adicionar pacote ${item.package_id}: ${err}`);
     }
   }
+
+  const basketResp = await (await fetch(`https://headless.tebex.io/api/baskets/${basket.ident}`, {
+    headers: { "Content-Type": "application/json" }
+  })).json();
+
+  const checkoutUrl = basketResp?.data?.links?.checkout;
+  if (!checkoutUrl) {
+    throw new Error("URL de checkout não encontrada para o basket combinado.");
+  }
+
+  await registrarPedido(nickname, items, basket.ident);
+  salvarPedidoLocal(nickname);
+
+  window.location.href = checkoutUrl;
 }
 
 async function checkoutViaWorker(nickname, items) {
