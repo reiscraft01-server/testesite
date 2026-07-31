@@ -1105,7 +1105,7 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
 /* ================= */
 
 #mc-sobre,#mc-loja,#mc-servicos {
-    font-family:'Cinzel',serif; font-size:32px;
+    font-family:'Cinzel',serif; font-size:38px;
     letter-spacing:2px; text-transform:uppercase; word-break:break-word;
     text-align:center; display:block; width:100%;
 }
@@ -1129,7 +1129,7 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
 }
 
 @media(max-width:900px){
-    #mc-loja { font-size:26px; }
+    #mc-loja,#mc-sobre,#mc-servicos { font-size:26px; }
 }
 
 /* ================= */
