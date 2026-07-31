@@ -87,7 +87,8 @@ function criarParticulasNether() {
   let particles = [];
   let rafId = null;
   let running = false;
-  const PARTICLE_COUNT = 55;
+  const isMobile = window.matchMedia("(max-width:700px)").matches;
+  const PARTICLE_COUNT = isMobile ? 18 : 55;
 
   const COLORS = [
     "rgba(170,0,255,", "rgba(200,100,255,", "rgba(255,180,50,",
@@ -148,6 +149,7 @@ function criarParticulasNether() {
   }
 
   function updateParallax() {
+    if (isMobile) return;
     currentMX += (targetMX - currentMX) * 0.06;
     currentMY += (targetMY - currentMY) * 0.06;
     if (lightingEl) {

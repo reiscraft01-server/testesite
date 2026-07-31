@@ -1,4 +1,4 @@
-﻿const PRODUTOS = {
+const PRODUTOS = {
   vips: {
     titulo: "Escolha seu VIP",
     exclusivo: true,
@@ -11,18 +11,18 @@
         moeda: "USD",
         tebexId: 7588021,
         cor: "#c0c0c0",
-        icone: "ðŸ›¡",
+        icone: "🛡",
         imagem: "assets/vip-guerreiro.webp",
-        imagemKit: "assets/kit-guerreiro.webp",
+        imagemKit: "assets/kit-ferro.webp",
         descricao: "Kit Ferro exclusivo",
         beneficios: [
-          "Full Ferro - ProteÃ§Ã£o IV",
-          "Escudo - InquebrÃ¡vel III",
-          "Ferramentas EficiÃªncia IV e AfiaÃ§Ã£o IV",
+          "Full Ferro - Proteção IV",
+          "Escudo - Inquebrável III",
+          "Ferramentas Eficiência IV e Afiação IV",
           "4x Totem da Imortalidade",
-          "32x PÃ©rola do End",
-          "64x FilÃ©",
-          "16x MaÃ§Ã£ Dourada"
+          "32x Pérola do End",
+          "64x Filé",
+          "16x Maçã Dourada"
         ]
       },
       {
@@ -32,20 +32,20 @@
         moeda: "USD",
         tebexId: 7588026,
         cor: "#00d4ff",
-        icone: "ðŸ’Ž",
+        icone: "💎",
         imagem: "assets/vip-supremo.webp",
-        imagemKit: "assets/kit-supremo.webp",
+        imagemKit: "assets/kit-diamante.webp",
         descricao: "Kit Diamante exclusivo",
         beneficios: [
-          "Full Diamante - ProteÃ§Ã£o III",
-          "Escudo - InquebrÃ¡vel III",
-          "Ferramentas EficiÃªncia III e AfiaÃ§Ã£o III",
-          "12x MaÃ§Ã£ Dourada",
-          "32x PÃ©rola do End",
+          "Full Diamante - Proteção III",
+          "Escudo - Inquebrável III",
+          "Ferramentas Eficiência III e Afiação III",
+          "12x Maçã Dourada",
+          "32x Pérola do End",
           "16x Diamantes",
-          "3x MaÃ§Ã£ Dourada Encantada",
+          "3x Maçã Dourada Encantada",
           "1x Melhoria de Netherita",
-          "64x FilÃ©"
+          "64x Filé"
         ]
       },
       {
@@ -55,24 +55,24 @@
         moeda: "USD",
         tebexId: 7588030,
         cor: "#b060ff",
-        icone: "âš”",
+        icone: "⚔",
         imagem: "assets/vip-rei.webp",
-        imagemKit: "assets/kit-rei.webp",
+        imagemKit: "assets/kit-netherite.webp",
         descricao: "Kit Netherite exclusivo",
         beneficios: [
-          "Full Netherite - ProteÃ§Ã£o IV",
-          "Escudo - InquebrÃ¡vel III",
-          "Ferramentas EficiÃªncia IV e AfiaÃ§Ã£o IV",
+          "Full Netherite - Proteção IV",
+          "Escudo - Inquebrável III",
+          "Ferramentas Eficiência IV e Afiação IV",
           "Mace",
-          "LanÃ§a de Netherite Encantada",
+          "Lança de Netherite Encantada",
           "7x Cristal do End",
-          "5x MaÃ§Ã£ Dourada Encantada",
-          "20x MaÃ§Ã£ Dourada",
-          "64x PÃ©rola do End",
+          "5x Maçã Dourada Encantada",
+          "20x Maçã Dourada",
+          "64x Pérola do End",
           "5 Packs de Foguete",
           "16x Obsidian",
           "5x Totem da Imortalidade",
-          "1x Ã‰litro"
+          "1x Élitro"
         ]
       },
       {
@@ -82,23 +82,23 @@
         moeda: "USD",
         tebexId: 7588032,
         cor: "#ffd700",
-        icone: "ðŸ‘‘",
+        icone: "👑",
         imagem: "assets/vip-deus.webp",
-        imagemKit: "assets/kit-deus.webp",
+        imagemKit: "assets/kit-rei.webp",
         descricao: "Kit Rei exclusivo",
         beneficios: [
           "Full Netherite - Full Enchant",
           "Escudo - Full Enchant",
-          "Ferramentas EficiÃªncia V e AfiaÃ§Ã£o V",
-          "32x MaÃ§Ã£ Dourada",
-          "10x MaÃ§Ã£ Dourada Encantada",
-          "32x PÃ©rola do End",
+          "Ferramentas Eficiência V e Afiação V",
+          "32x Maçã Dourada",
+          "10x Maçã Dourada Encantada",
+          "32x Pérola do End",
           "5 Packs de Foguete",
           "32x Obsidian",
           "10x Totem da Imortalidade",
-          "1x Ã‰litro Full Enchant",
+          "1x Élitro Full Enchant",
           "Mace Full Enchant",
-          "LanÃ§a Full Enchant",
+          "Lança Full Enchant",
           "16x Cristal do End"
         ]
       }
@@ -117,7 +117,7 @@
         tebexId: 7588036,
         maxQtd: null,
         cor: "#ff8c00",
-        icone: "ðŸ ",
+        icone: "🏠",
         imagem: "assets/home.webp",
         descricao: "Adicione um novo ponto de teleporte."
       },
@@ -129,7 +129,7 @@
         tebexId: 7588047,
         maxQtd: 1,
         cor: "#ff4444",
-        icone: "ðŸ”“",
+        icone: "🔓",
         imagem: "assets/desban.webp",
         descricao: "Recupere seu acesso ao reino."
       }

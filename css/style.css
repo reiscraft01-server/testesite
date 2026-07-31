@@ -107,10 +107,12 @@
 @media(max-width:700px){
     .nav-toggle { display:block; }
     .navbar { flex-direction:row; }
+    .nav-open .nav-toggle { position:relative; z-index:2001; }
     .nav-links { display:none; }
     .nav-open .nav-links {
         display:flex; flex-direction:column;
         position:fixed; top:0; left:0; width:100%; height:100%;
+        height:100dvh;
         z-index:2000; background:rgba(0,0,0,.7);
         backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
         justify-content:center; align-items:center; gap:24px;
@@ -1017,6 +1019,14 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
 /* ================= */
 
 @media(max-width:700px){
+    body {
+        background-attachment:scroll;
+        padding-top:calc(60px + env(safe-area-inset-top));
+    }
+    .nav-logo { font-size:14px; gap:6px; }
+    .nav-toggle, .mc-btn, .info-btn, .cart-item-qtd button, .close-cart,
+    .cart-item-remove, .discord-connect, .tiktok-btn, .social-icon,
+    .nav-links a, a { touch-action:manipulation; }
     header { padding:40px 12px; }
     .logo { width:180px; }
     h2 { font-size:22px; }
@@ -1032,27 +1042,34 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
     .vip[data-produto-id="home"] .vip-img,
     .vip[data-produto-id="desban"] .vip-img { width:170px; height:170px; }
     .vip h3 { font-size:18px; }
-    .mc-btn { width:90%; font-size:11px; padding:10px 16px; border-radius:6px; }
+    .mc-btn { width:90%; font-size:11px; padding:12px 16px; border-radius:6px; min-height:44px; }
     .mc-btn-add { width:auto !important; }
-    .info-btn { padding:6px 10px; font-size:7px; }
+    .info-btn { padding:10px 14px; font-size:11px; }
     .popup-content { padding:16px; }
     .kit-img { max-height:35vh; }
-    .info-beneficios { columns:1; font-size:8px; }
-    #cart-panel { width:100%; right:-100%; }
-    #cart-button { width:56px; height:56px; right:12px; bottom:12px; }
-    #cart-count { font-size:7px; min-width:14px; height:14px; line-height:14px; top:-2px; right:-2px; }
-    .portal-card { width:100%; height:auto; max-width:none; padding:55px 10px 14px; }
-    .server-ip { font-size:9px; padding:8px 10px; word-break:break-all; overflow-wrap:break-word; }
-    .server-port { font-size:9px; margin-top:4px; }
-    .portal-edition h3 { font-size:9px; margin-bottom:4px; }
+    .info-beneficios { columns:1; font-size:12px; line-height:1.9; }
+    #cart-panel {
+        width:100%; right:-100%;
+        height:100vh; height:100dvh;
+        padding-bottom:calc(20px + env(safe-area-inset-bottom));
+    }
+    #cart-button { width:56px; height:56px; right:12px; bottom:calc(12px + env(safe-area-inset-bottom)); }
+    #cart-count { font-size:9px; min-width:14px; height:14px; line-height:14px; top:-2px; right:-2px; }
+    .hero-glow { width:120vw; height:120vw; filter:blur(50px); }
+    .portal-frame { height:min(108vw,540px); }
+    .portal-gif { width:100%; height:100%; object-fit:cover; }
+    .portal-card { width:100%; height:auto; max-width:none; padding:50px 10px 12px; }
+    .server-ip { font-size:11px; padding:8px 10px; word-break:break-all; overflow-wrap:break-word; }
+    .server-port { font-size:10px; margin-top:4px; }
+    .portal-edition h3 { font-size:10px; margin-bottom:4px; }
     .portal-editions { gap:8px; }
-    .portal-edition .mc-btn { font-size:7px !important; padding:6px 8px; margin-top:6px; border-radius:4px !important; }
+    .portal-edition .mc-btn { font-size:10px !important; padding:9px 8px; margin-top:6px; border-radius:4px !important; min-height:38px; }
     .sign-img { width:160px; }
-    #resumo-panel { width:95%; }
+    #resumo-panel { width:95%; max-height:calc(100dvh - 32px); }
     .loja-header { padding:12px 10px 8px; }
     #mc-sobre,#mc-loja,#mc-servicos { font-size:18px; }
     .cart-header h2 { font-size:13px; }
-    .toast { font-size:8px; white-space:normal; }
+    .toast { font-size:11px; white-space:normal; }
     .tiktok-card, .discord-widget { width:100%; margin:10px 0; }
     .discord-widget iframe { height:400px; }
     .tiktok-video { height:400px; }
@@ -1066,19 +1083,22 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
     .footer-copy { font-size:12px; }
     #mc-loja-desc { font-size:14px; }
     .cart-nickname input { font-size:11px; padding:10px 12px; }
-    .cart-item { font-size:9px; padding:8px 10px; }
-    .cart-item-info b { font-size:10px; }
+    .cart-item { font-size:12px; padding:10px 10px; }
+    .cart-item-info b { font-size:13px; }
+    .cart-item-qtd button { min-width:32px; min-height:32px; padding:4px 10px; }
+    .cart-item-remove { font-size:18px !important; padding:6px !important; }
     .resumo-player .resumo-valor { font-size:14px; }
 }
 
 @media(max-width:360px){
     .logo { width:140px; }
     .server-box { margin:20px auto; }
-    .portal-card { padding:45px 8px 12px; }
-    .server-ip { font-size:8px; padding:6px 8px; }
-    .server-port { font-size:8px; }
-    .portal-edition h3 { font-size:8px; }
-    .portal-edition .mc-btn { font-size:6px !important; padding:4px 6px; }
+    .portal-frame { height:min(112vw,480px); }
+    .portal-card { padding:44px 8px 10px; }
+    .server-ip { font-size:10px; padding:6px 8px; }
+    .server-port { font-size:9px; }
+    .portal-edition h3 { font-size:9px; }
+    .portal-edition .mc-btn { font-size:9px !important; padding:8px 6px; }
     .sign-img { width:120px; }
     h2 { font-size:18px; }
     .vip { padding:12px; }
@@ -1086,6 +1106,13 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
     .vip-desc { font-size:12px; }
     .tiktok-video { height:320px; }
     .discord-widget iframe { height:320px; }
+}
+
+@media (hover:none){
+    .vip:hover { transform:none; }
+    .vip.recomendado:hover { transform:none; }
+    .social-icon:hover { transform:none; }
+    .portal-edition .mc-btn:hover { transform:none; }
 }
 
 @media(min-width:701px) and (max-width:1024px){
