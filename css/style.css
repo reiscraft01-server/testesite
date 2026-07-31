@@ -775,6 +775,7 @@ button:hover { background:#f5d76e; filter:brightness(1.05); }
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
     z-index:5000; align-items:center; justify-content:center;
     padding:20px; box-sizing:border-box;
+    overflow-y:auto;
 }
 
 .manual-content {
@@ -786,6 +787,7 @@ button:hover { background:#f5d76e; filter:brightness(1.05); }
     box-shadow:0 0 50px rgba(168,85,247,.35),0 20px 60px rgba(0,0,0,.7);
     animation:manualIn .35s cubic-bezier(.2,.9,.3,1.2) both;
     position:relative;
+    margin:auto;
 }
 
 @keyframes manualIn {
