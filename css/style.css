@@ -843,6 +843,25 @@ button:hover { background:#f5d76e; filter:brightness(1.05); }
 
 .manual-continuar-btn:active { transform:translateY(0); }
 
+.manual-discord-btn {
+    display:none; align-items:center; justify-content:center; gap:10px;
+    background:#5865F2; color:#fff; text-decoration:none;
+    font-family:'Press Start 2P',cursive; font-size:13px;
+    padding:18px 32px; border-radius:14px; width:100%;
+    box-sizing:border-box; border:2px solid rgba(255,255,255,.08);
+    transition:background .25s,box-shadow .25s,transform .15s;
+}
+
+.manual-discord-btn svg { width:22px; height:22px; flex-shrink:0; }
+
+.manual-discord-btn:hover {
+    background:#4752C4;
+    box-shadow:0 0 30px rgba(88,101,242,.55);
+    transform:translateY(-2px);
+}
+
+.manual-discord-btn:active { transform:translateY(0); }
+
 /* ================= */
 /* PORTAL OVERLAY */
 /* ================= */
@@ -1129,7 +1148,7 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
     .manual-content { padding:26px 18px; }
     .manual-titulo { font-size:19px; }
     .manual-texto { font-size:14px; }
-    .manual-continuar-btn { font-size:11px; padding:16px 20px; min-height:48px; }
+    .manual-continuar-btn, .manual-discord-btn { font-size:11px; padding:16px 20px; min-height:48px; }
     .info-beneficios { columns:1; font-size:12px; line-height:1.9; }
     #cart-panel {
         width:100%; right:-100%;

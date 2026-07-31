@@ -232,7 +232,7 @@ function adicionarAoCarrinho(produtoId) {
     : false;
 
   if (prod.ativacaoManual && zerado) {
-    abrirManual(prod);
+    abrirManual(prod, "carrinho");
     return;
   }
 
@@ -262,7 +262,7 @@ const MANUAL_DEFAULT = {
 
 let manualProdutoAtual = null;
 
-function abrirManual(prod) {
+function abrirManual(prod, modo) {
   const popup = document.getElementById("manual-popup");
   if (!popup) return;
 
@@ -272,6 +272,11 @@ function abrirManual(prod) {
   const texto = document.getElementById("manual-texto");
   if (titulo) titulo.textContent = conf.titulo;
   if (texto) texto.innerHTML = conf.texto;
+
+  const discordBtn = document.getElementById("manual-discord-btn");
+  const continuarBtn = document.getElementById("manual-continuar-btn");
+  if (discordBtn) discordBtn.style.display = modo === "info" ? "flex" : "none";
+  if (continuarBtn) continuarBtn.style.display = modo === "carrinho" ? "flex" : "none";
 
   popup.style.display = "flex";
 }
@@ -293,7 +298,7 @@ function abrirInfo(produtoId) {
   if (!prod) return;
 
   if (prod.ativacaoManual) {
-    abrirManual(prod);
+    abrirManual(prod, "info");
     return;
   }
 
