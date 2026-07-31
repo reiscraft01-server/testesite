@@ -779,9 +779,10 @@ button:hover { background:#f5d76e; filter:brightness(1.05); }
 
 .manual-content {
     background:linear-gradient(145deg,#1a0f2e 0%,#140a24 55%,#0d0618 100%);
-    width:92vw; max-width:460px; max-height:90vh; overflow-y:auto;
+    width:92vw; max-width:460px; max-height:90vh; overflow-y:auto; overflow-x:hidden;
     padding:34px 30px; border-radius:22px; text-align:center;
     border:1px solid rgba(168,85,247,.45);
+    box-sizing:border-box;
     box-shadow:0 0 50px rgba(168,85,247,.35),0 20px 60px rgba(0,0,0,.7);
     animation:manualIn .35s cubic-bezier(.2,.9,.3,1.2) both;
     position:relative;
