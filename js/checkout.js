@@ -114,7 +114,10 @@ async function checkoutDireto(nickname, items) {
     const pkgResp = await fetch(`https://headless.tebex.io/api/baskets/${basket.ident}/packages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ package_id: item.package_id, quantity: item.quantity, variable_data: { nickname: nickname } })
+      body: JSON.stringify({ package_id: item.package_id, quantity: item.quantity, variable_data: {
+        "Digite seu Nick no Minecraft.": nickname,
+        "nickname": nickname
+      } })
     });
     if (!pkgResp.ok) {
       const err = await pkgResp.text();
@@ -147,7 +150,10 @@ async function checkoutDiretoComSteve(nickname, items) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       username: "Steve",
-      variable_data: { nickname: nickname },
+      variable_data: {
+        "Digite seu Nick no Minecraft.": nickname,
+        "nickname": nickname
+      },
       complete_url: baseUrl,
       cancel_url: CONFIG.site.url + "/index.html?canceled=true",
       complete_auto_redirect: true
@@ -168,7 +174,10 @@ async function checkoutDiretoComSteve(nickname, items) {
     const pkgResp = await fetch(`https://headless.tebex.io/api/baskets/${basket.ident}/packages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ package_id: item.package_id, quantity: item.quantity, variable_data: { nickname: nickname } })
+      body: JSON.stringify({ package_id: item.package_id, quantity: item.quantity, variable_data: {
+        "Digite seu Nick no Minecraft.": nickname,
+        "nickname": nickname
+      } })
     });
     if (!pkgResp.ok) {
       const err = await pkgResp.text();
