@@ -119,7 +119,8 @@ const PRODUTOS = {
         cor: "#ff8c00",
         icone: "🏠",
         imagem: "assets/home.webp",
-        descricao: "Adicione um novo ponto de teleporte."
+        descricao: "Adicione um novo ponto de teleporte.",
+        ativacaoManual: true
       },
       {
         id: "desban",
@@ -131,7 +132,8 @@ const PRODUTOS = {
         cor: "#ff4444",
         icone: "🔓",
         imagem: "assets/desban.webp",
-        descricao: "Recupere seu acesso ao reino."
+        descricao: "Recupere seu acesso ao reino.",
+        ativacaoManual: true
       },
       {
         id: "kingspass",

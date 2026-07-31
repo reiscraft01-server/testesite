@@ -241,9 +241,41 @@ function alterarHome(delta) {
   atualizarInterface();
 }
 
+const MANUAL_DEFAULT = {
+  titulo: "📦 Ativação Manual",
+  texto: "Este extra é ativado manualmente pela equipe do ReisCraft.<br>Após concluir sua compra, entre em contato com nosso suporte no Discord informando o número do seu pedido para que possamos realizar a ativação o mais rápido possível.",
+  botao: "Entrar no Discord",
+  discordUrl: "https://discord.gg/BGQZTPGbH"
+};
+
+function abrirManual(prod) {
+  const popup = document.getElementById("manual-popup");
+  if (!popup) return;
+
+  const conf = { ...MANUAL_DEFAULT, ...(prod.manual || {}) };
+  const titulo = document.getElementById("manual-titulo");
+  const texto = document.getElementById("manual-texto");
+  if (titulo) titulo.textContent = conf.titulo;
+  if (texto) texto.innerHTML = conf.texto;
+  const btn = document.querySelector("#manual-popup .discord-btn");
+  if (btn) btn.href = conf.discordUrl;
+
+  popup.style.display = "flex";
+}
+
+function fecharManual() {
+  const popup = document.getElementById("manual-popup");
+  if (popup) popup.style.display = "none";
+}
+
 function abrirInfo(produtoId) {
   const prod = getProduto(produtoId);
   if (!prod) return;
+
+  if (prod.ativacaoManual) {
+    abrirManual(prod);
+    return;
+  }
 
   const popup = document.getElementById("popup");
   const titulo = document.getElementById("tituloVip");

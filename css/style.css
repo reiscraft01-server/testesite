@@ -765,6 +765,77 @@ button:hover { background:#f5d76e; filter:brightness(1.05); }
 .info-beneficios li { color:#d0b0ff; padding:4px 0; text-align:left; }
 
 /* ================= */
+/* MODAL ATIVACAO MANUAL */
+/* ================= */
+
+.manual-popup {
+    display:none; position:fixed; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(10,0,20,.72);
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    z-index:5000; align-items:center; justify-content:center;
+    padding:20px; box-sizing:border-box;
+}
+
+.manual-content {
+    background:linear-gradient(145deg,#1a0f2e 0%,#140a24 55%,#0d0618 100%);
+    width:92vw; max-width:460px; max-height:90vh; overflow-y:auto;
+    padding:34px 30px; border-radius:22px; text-align:center;
+    border:1px solid rgba(168,85,247,.45);
+    box-shadow:0 0 50px rgba(168,85,247,.35),0 20px 60px rgba(0,0,0,.7);
+    animation:manualIn .35s cubic-bezier(.2,.9,.3,1.2) both;
+    position:relative;
+}
+
+@keyframes manualIn {
+    from { opacity:0; transform:scale(.88) translateY(10px); }
+    to   { opacity:1; transform:scale(1) translateY(0); }
+}
+
+.manual-discord-icon {
+    width:64px; height:64px; margin:4px auto 14px; display:block;
+    filter:drop-shadow(0 0 12px rgba(88,101,242,.8));
+    animation:discordPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes discordPulse {
+    0%,100% { transform:scale(1); }
+    50%     { transform:scale(1.08); }
+}
+
+.manual-content .close { position:absolute; top:12px; right:16px; float:none; }
+
+.manual-titulo {
+    font-family:'Cinzel',serif; color:#ffd700;
+    font-size:24px; margin-bottom:16px;
+    text-shadow:0 0 20px rgba(255,215,0,.35);
+}
+
+.manual-texto {
+    font-family:Arial,sans-serif; color:#d9c8ff;
+    font-size:15px; line-height:1.85; margin-bottom:26px;
+}
+
+.discord-btn {
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    background:#5865F2; color:#fff; text-decoration:none;
+    font-family:'Press Start 2P',cursive; font-size:13px;
+    padding:18px 32px; border-radius:14px; width:100%;
+    box-sizing:border-box; border:2px solid rgba(255,255,255,.08);
+    transition:background .25s,box-shadow .25s,transform .15s;
+}
+
+.discord-btn svg { width:22px; height:22px; flex-shrink:0; }
+
+.discord-btn:hover {
+    background:#4752C4;
+    box-shadow:0 0 30px rgba(88,101,242,.55);
+    transform:translateY(-2px);
+}
+
+.discord-btn:active { transform:translateY(0); }
+
+/* ================= */
 /* PORTAL OVERLAY */
 /* ================= */
 
@@ -1047,6 +1118,10 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
     .info-btn { padding:10px 14px; font-size:11px; }
     .popup-content { padding:16px; }
     .kit-img { max-height:35vh; }
+    .manual-content { padding:26px 18px; }
+    .manual-titulo { font-size:19px; }
+    .manual-texto { font-size:14px; }
+    .discord-btn { font-size:11px; padding:16px 20px; }
     .info-beneficios { columns:1; font-size:12px; line-height:1.9; }
     #cart-panel {
         width:100%; right:-100%;
