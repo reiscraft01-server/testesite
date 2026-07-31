@@ -1,8 +1,70 @@
 const SUPABASE_URL = "https://pnycyhwostszwwfgqgyf.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_QfFXkGVf86cSsw46z3aI2w_PSeMNPCV";
 
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 let filtroAtual = "todos";
 let ordersCache = [];
+
+function mostrarTela(tela) {
+  document.getElementById("login-screen").style.display = tela === "login" ? "flex" : "none";
+  document.getElementById("dashboard-screen").style.display = tela === "dashboard" ? "block" : "none";
+}
+
+async function init() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    mostrarTela("dashboard");
+    carregarPedidos();
+  } else {
+    mostrarTela("login");
+  }
+}
+
+async function entrar(event) {
+  event.preventDefault();
+
+  const email = document.getElementById("login-email").value.trim();
+  const senha = document.getElementById("login-password").value;
+  const btn = document.getElementById("login-btn");
+  const errEl = document.getElementById("login-error");
+
+  errEl.textContent = "";
+  if (!email || !senha) {
+    errEl.textContent = "⚠️ Preencha email e senha.";
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "⏳ Entrando...";
+
+  const { error } = await supabase.auth.signInWithPassword({ email: email, password: senha });
+
+  if (error) {
+    errEl.textContent = "❌ Email ou senha inválidos.";
+    btn.disabled = false;
+    btn.textContent = "⚔ Entrar";
+    return;
+  }
+
+  document.getElementById("login-password").value = "";
+  mostrarTela("dashboard");
+  carregarPedidos();
+}
+
+async function sair() {
+  await supabase.auth.signOut();
+  document.getElementById("login-email").value = "";
+  mostrarTela("login");
+}
+
+function toggleSenha() {
+  const input = document.getElementById("login-password");
+  const eye = document.getElementById("login-eye");
+  const mostrar = input.type === "password";
+  input.type = mostrar ? "text" : "password";
+  eye.textContent = mostrar ? "🙈" : "👁";
+}
 
 async function carregarPedidos() {
   const tbody = document.querySelector("#orders-table tbody");
@@ -110,6 +172,7 @@ function atualizarStats() {
 
   document.getElementById("stat-total").textContent = total;
   document.getElementById("stat-pendentes").textContent = pendentes;
+  document.getElementById("stat-concluidos").textContent = concluidos;
   document.getElementById("stat-receita").textContent = "$" + receita.toFixed(2);
   document.getElementById("stat-homes-pend").textContent = homesPend;
   document.getElementById("stat-desban-pend").textContent = desbanPend;
@@ -143,4 +206,4 @@ function definirFiltro(filtro) {
   aplicarFiltro();
 }
 
-document.addEventListener("DOMContentLoaded", carregarPedidos);
+document.addEventListener("DOMContentLoaded", init);

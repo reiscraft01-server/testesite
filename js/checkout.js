@@ -250,7 +250,7 @@ async function registrarPedido(nickname, items, basketIdent) {
     if (state.desban) payload.desban = true;
     if (state.bp) payload.bp = true;
 
-    await fetch(`${CONFIG.supabase.url}/rest/v1/orders`, {
+    const resp = await fetch(`${CONFIG.supabase.url}/rest/v1/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -259,6 +259,12 @@ async function registrarPedido(nickname, items, basketIdent) {
       },
       body: JSON.stringify(payload)
     });
+
+    if (!resp.ok) {
+      const errText = await resp.text();
+      console.warn("[SUPABASE] Falha ao registrar pedido:", resp.status, errText);
+      return;
+    }
   } catch (err) {
     console.warn("Erro ao registrar no Supabase (pedido salvo localmente):", err);
   }
