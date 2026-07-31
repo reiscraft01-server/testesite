@@ -154,7 +154,8 @@ const PRODUTOS = {
         icone: "🎫",
         imagem: "assets/kingspass.webp",
         imagemKit: "assets/kingspass.webp",
-        descricao: "Libera o seu Passe de Batalha exclusivo do reino."
+        descricao: "Desbloqueie a versão premium do Passe de Batalha do ReisCraft e evolua sua jornada como nunca antes!",
+        infoLonga: "Desbloqueie a versão premium do Passe de Batalha do ReisCraft e evolua sua jornada como nunca antes!<br><br>O King's Pass oferece uma trilha exclusiva de recompensas para quem deseja acelerar sua progressão e conquistar itens únicos durante a temporada. Ao completar missões e desafios, você desbloqueará prêmios cada vez melhores, incluindo recompensas exclusivas disponíveis apenas para jogadores premium.<br><br><b>O que você recebe:</b><br>👑 Acesso à trilha premium do Passe de Batalha.<br>🎁 Recompensas exclusivas em cada nível.<br>⚔️ Itens, recursos e cosméticos especiais.<br>🚀 Progressão muito mais recompensadora durante toda a temporada.<br>⭐ Benefícios únicos que não estão disponíveis no passe gratuito.<br><br><b>Importante:</b> O King's Pass libera apenas a trilha premium da temporada atual. Para resgatar as recompensas, basta evoluir normalmente completando os desafios e acumulando progresso no Passe de Batalha.<br><br>Mostre que você faz parte da elite do ReisCraft e aproveite uma experiência muito mais completa com o King's Pass!"
       }
     ]
   }

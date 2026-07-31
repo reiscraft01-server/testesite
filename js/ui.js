@@ -311,18 +311,19 @@ function abrirInfo(produtoId) {
   imagem.src = prod.imagemKit || prod.imagem;
   imagem.alt = prod.nome;
 
-  let beneficiosHtml = "";
-  if (prod.beneficios) {
-    beneficiosHtml = "<ul class='info-beneficios'>";
+  if (prod.infoLonga) {
+    texto.innerHTML = prod.infoLonga;
+  } else if (prod.beneficios) {
+    let beneficiosHtml = "<ul class='info-beneficios'>";
     for (const b of prod.beneficios) {
       beneficiosHtml += `<li>✦ ${b}</li>`;
     }
     beneficiosHtml += "</ul>";
+    texto.innerHTML = beneficiosHtml;
   } else {
-    beneficiosHtml = `<p>${prod.descricao}</p>`;
+    texto.innerHTML = `<p>${prod.descricao}</p>`;
   }
 
-  texto.innerHTML = beneficiosHtml;
   popup.style.display = "flex";
 }
 
