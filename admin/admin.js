@@ -11,6 +11,17 @@ function mostrarTela(tela) {
   document.getElementById("dashboard-screen").style.display = tela === "dashboard" ? "block" : "none";
 }
 
+function sistemaPronto() {
+  const statusEl = document.getElementById("login-status");
+  if (statusEl) statusEl.textContent = "🛰 Status: sistema pronto";
+}
+
+window.onerror = function (msg) {
+  const errEl = document.getElementById("login-error");
+  if (errEl) errEl.textContent = "❌ Erro no painel: " + msg;
+  console.error("[ADMIN] Erro global:", msg);
+};
+
 async function init() {
   try {
     if (!window.supabase) {
@@ -38,7 +49,7 @@ function comTimeout(promise, ms) {
 }
 
 async function entrar(event) {
-  event.preventDefault();
+  if (event && event.preventDefault) event.preventDefault();
 
   const email = document.getElementById("login-email").value.trim();
   const senha = document.getElementById("login-password").value;
@@ -234,4 +245,9 @@ function definirFiltro(filtro) {
   aplicarFiltro();
 }
 
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("login-form");
+  if (form) form.addEventListener("submit", entrar);
+  sistemaPronto();
+  init();
+});
