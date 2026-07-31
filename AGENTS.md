@@ -111,6 +111,8 @@ A primeira é obrigatória para a Tebex, mas usa `"Steve"` (valor seguro que pas
 
 A segunda é usada internamente pelo projeto.
 
+> ⚠️ Nota: A chave `"Digite seu Nick no Minecraft."` no `variable_data` do basket causava erro 400 ao adicionar pacotes, mesmo com o valor `"Steve"`. Foi removida do código. O fluxo atual envia apenas `variable_data: { nickname: nickname }` tanto no basket quanto nos pacotes. O jogador é orientado pelo modal a digitar o nick real no campo "Minecraft Username" da página da Tebex, e os comandos LuckPerms usam `{username}` (o valor digitado).
+
 ---
 
 ### Fluxo atual
