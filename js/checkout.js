@@ -230,44 +230,50 @@ async function checkoutViaWorker(nickname, items) {
 }
 
 async function registrarPedido(nickname, items, basketIdent) {
-  try {
-    const state = carrinho.state;
-    const precisaManual = state.homes > 0 || state.desban;
+  const state = carrinho.state;
+  const precisaManual = state.homes > 0 || state.desban;
 
-    const payload = {
-      nickname: nickname,
-      vip: null,
-      homes: 0,
-      desban: false,
-      bp: false,
-      total: carrinho.total,
-      tebex_txn_id: basketIdent,
-      status: precisaManual ? "pending" : "completed"
-    };
+  const payload = {
+    nickname: nickname,
+    vip: null,
+    homes: 0,
+    desban: false,
+    bp: false,
+    total: carrinho.total,
+    tebex_txn_id: basketIdent,
+    status: precisaManual ? "pending" : "completed"
+  };
 
-    if (state.vip) payload.vip = state.vip.id;
-    if (state.homes > 0) payload.homes = state.homes;
-    if (state.desban) payload.desban = true;
-    if (state.bp) payload.bp = true;
+  if (state.vip) payload.vip = state.vip.id;
+  if (state.homes > 0) payload.homes = state.homes;
+  if (state.desban) payload.desban = true;
+  if (state.bp) payload.bp = true;
 
-    const resp = await fetch(`${CONFIG.supabase.url}/rest/v1/orders`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": CONFIG.supabase.anonKey,
-        "Authorization": `Bearer ${CONFIG.supabase.anonKey}`
-      },
-      body: JSON.stringify(payload)
-    });
+  for (let tentativa = 1; tentativa <= 3; tentativa++) {
+    try {
+      const resp = await fetch(`${CONFIG.supabase.url}/rest/v1/orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": CONFIG.supabase.anonKey,
+          "Authorization": `Bearer ${CONFIG.supabase.anonKey}`
+        },
+        body: JSON.stringify(payload)
+      });
 
-    if (!resp.ok) {
+      if (resp.ok) return true;
+
       const errText = await resp.text();
-      console.warn("[SUPABASE] Falha ao registrar pedido:", resp.status, errText);
-      return;
+      console.warn(`[SUPABASE] Falha na tentativa ${tentativa}/3:`, resp.status, errText);
+    } catch (err) {
+      console.warn(`[SUPABASE] Erro na tentativa ${tentativa}/3:`, err);
     }
-  } catch (err) {
-    console.warn("Erro ao registrar no Supabase (pedido salvo localmente):", err);
+
+    if (tentativa < 3) await new Promise(r => setTimeout(r, 800));
   }
+
+  mostrarToast("⚠️ Não conseguimos registrar seu pedido automaticamente. Se o pagamento for aprovado, contate o suporte no Discord com este nick: " + nickname);
+  return false;
 }
 
 function salvarPedidoLocal(nickname) {
