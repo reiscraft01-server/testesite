@@ -30,9 +30,17 @@ function aplicarFiltro() {
   let dados = ordersCache;
 
   if (filtroAtual === "pendentes") {
-    dados = dados.filter(o => o.status === "pending" || !o.homes_delivered || !o.desban_delivered);
+    dados = dados.filter(o => {
+      const precisaHomes = o.homes > 0;
+      const precisaDesban = !!o.desban;
+      return o.status === "pending" || (precisaHomes && !o.homes_delivered) || (precisaDesban && !o.desban_delivered);
+    });
   } else if (filtroAtual === "concluidos") {
-    dados = dados.filter(o => o.status === "completed" && o.homes_delivered && o.desban_delivered);
+    dados = dados.filter(o => {
+      const precisaHomes = o.homes > 0;
+      const precisaDesban = !!o.desban;
+      return o.status === "completed" && (!precisaHomes || o.homes_delivered) && (!precisaDesban || o.desban_delivered);
+    });
   }
 
   atualizarStats();

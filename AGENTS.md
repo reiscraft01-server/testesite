@@ -86,3 +86,23 @@ Fluxo do nick bloqueado:
 Devem usar `{username}` (ou `{nickname}`, que é sinônimo) — EX: `/lp user {username} parent addtemp vip 30d`.
 
 **NÃO usar** `{variable_data.X}` — a Tebex envia literal e o comando quebra no servidor.
+
+## Painel Admin de Pedidos (Supabase)
+
+- Projeto Supabase: `pnycyhwostszwwfgqgyf` — URL/anon key em `js/checkout.js` e `admin/admin.js` (publishable key, SEM senha — painel `admin/` é público, qualquer um com a URL vê os pedidos)
+- Admin: `<site>/admin/` — lista pedidos, stats, filtros Todos/Pendentes/Concluídos, botões de entrega de Home e Desban
+- Tabela: `orders` — colunas: `nickname`, `vip`, `homes`, `desban`, `total`, `status`, `tebex_txn_id` (= `basket.ident`), `homes_delivered`, `desban_delivered`, `created_at`
+
+### Modelo de status (decidido)
+
+- Pedido **só com VIP** → `status: "completed"` na criação (`registrarPedido()` em `js/checkout.js`) — entrega automática pelos comandos do painel Tebex
+- Pedido **com Home Adicional ou Desban** (incluindo misto com VIP) → `status: "pending"` — entrega manual pelo painel (`homes_delivered`/`desban_delivered`)
+- Filtros do admin: "Pendentes" = pending OU home/desban não entregues; "Concluídos" = completed E todas as entregas manuais feitas
+
+### Nota: `disabled: true` na API
+
+- `disabled: true` na resposta de `GET /api/accounts/{token}` significa **apenas** que o storefront hospedado pelo Tebex está desligado (fluxo de checkout próprio/headless) — **NÃO** bloqueia o checkout headless
+- Testado (31/07/2026): basket criado + pacote adicionado → `links.checkout` retornado normalmente → página `pay.tebex.io/...` responde 200
+- O `links.checkout` só aparece **depois** de adicionar pacotes ao basket (basket vazio não retorna link)
+- Test Mode ativado no painel (Checkout settings) para pagamentos de teste
+- `tebex-worker.js` NÃO está deployado (URL placeholder `tebex-worker.seu-subdomain.workers.dev`; conta Cloudflare existe mas sem uso). Webhook é código defensivo: marca `completed` só em pedidos sem home/desban. Se um dia deployar: configurar webhook URL no painel Tebex. Caveat: `tebex_txn_id` no Supabase guarda o `basket.ident`, não o transaction id do webhook — o lookup pode não bater.

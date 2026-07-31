@@ -115,15 +115,28 @@ async function handleWebhook(request) {
   const txnId = body.id || body.transaction_id || null;
 
   if (txnId && body.status === "complete") {
-    await fetch(`${SUPABASE_URL}/rest/v1/orders?tebex_txn_id=eq.${txnId}`, {
-      method: "PATCH",
+    const listResp = await fetch(`${SUPABASE_URL}/rest/v1/orders?tebex_txn_id=eq.${txnId}&select=*`, {
       headers: {
-        "Content-Type": "application/json",
         "apikey": SUPABASE_ANON_KEY,
         "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
-      },
-      body: JSON.stringify({ status: "completed" })
+      }
     });
+    const orders = await listResp.json();
+
+    for (const order of (Array.isArray(orders) ? orders : [])) {
+      const precisaManual = (order.homes || 0) > 0 || !!order.desban;
+      if (!precisaManual) {
+        await fetch(`${SUPABASE_URL}/rest/v1/orders?tebex_txn_id=eq.${txnId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": SUPABASE_ANON_KEY,
+            "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+          },
+          body: JSON.stringify({ status: "completed" })
+        });
+      }
+    }
   }
 
   return new Response(JSON.stringify({ received: true }), {

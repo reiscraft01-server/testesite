@@ -231,6 +231,9 @@ async function checkoutViaWorker(nickname, items) {
 
 async function registrarPedido(nickname, items, basketIdent) {
   try {
+    const state = carrinho.state;
+    const precisaManual = state.homes > 0 || state.desban;
+
     const payload = {
       nickname: nickname,
       vip: null,
@@ -238,10 +241,9 @@ async function registrarPedido(nickname, items, basketIdent) {
       desban: false,
       total: carrinho.total,
       tebex_txn_id: basketIdent,
-      status: "pending"
+      status: precisaManual ? "pending" : "completed"
     };
 
-    const state = carrinho.state;
     if (state.vip) payload.vip = state.vip.id;
     if (state.homes > 0) payload.homes = state.homes;
     if (state.desban) payload.desban = true;
