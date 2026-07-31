@@ -28,6 +28,12 @@ async function finalizarCompra() {
     mostrarToast("⚠️ Digite seu nickname do Minecraft (mínimo 3 letras)!");
     return;
   }
+  if (/pelo/i.test(nickname)) {
+    document.getElementById("nickname-input").focus();
+    document.getElementById("nickname-input").classList.add("input-error");
+    mostrarToast("❌ Seu nick contém um termo bloqueado pela plataforma de pagamento (Tebex). Contate o suporte no Discord para concluir a compra.");
+    return;
+  }
   document.getElementById("nickname-input").classList.remove("input-error");
 
   if (carrinho.quantidadeItens === 0) {
@@ -58,6 +64,12 @@ async function confirmarCompra() {
 
   if (!nicknameConfirmacao || nicknameConfirmacao.length < 3) {
     mostrarToast("⚠️ Nickname inválido. Volte e digite novamente.");
+    btnConfirmar.disabled = false;
+    btnConfirmar.textContent = "🛒 Ir para o pagamento";
+    return;
+  }
+  if (/pelo/i.test(nicknameConfirmacao)) {
+    mostrarToast("❌ Seu nick contém um termo bloqueado pela plataforma de pagamento. Contate o suporte no Discord.");
     btnConfirmar.disabled = false;
     btnConfirmar.textContent = "🛒 Ir para o pagamento";
     return;

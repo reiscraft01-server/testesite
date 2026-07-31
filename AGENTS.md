@@ -3,9 +3,9 @@
 ## Content Filter / Username Strategy
 - Tebex API blocks usernames containing "pelo" (case-insensitive substring check)
 - Error: `{status:404, title:"Invalid Username provided"}`
-- **Current solution**: first try `username: nickname` (real player nick); if 404 "Invalid Username", **retry with** `username: "Steve"` + `variable_data: { nickname }` — user sees a modal warning and must type nick in Tebex's Minecraft Username field
-- **Fallback modal**: shows on any 404 "Invalid Username" (not just "pelo"), explains user must re-enter nick on Tebex checkout page
-- **Nickname capture**: via API username (unfiltered nicks — `{nickname}` resolves in LP commands); via Tebex checkout page field (filtered nicks — Steve fallback)
+- **Current solution**: frontend blocks nicks containing "pelo" BEFORE checkout (`/pelo/i.test(nickname)` in `finalizarCompra()` and `confirmarCompra()`) — user sees a toast telling them to contact support on Discord. No basket is created, no payment lost.
+- **Nickname capture**: via API username — commands must use `{username}`/`{nickname}` (both resolve to the basket `username`). NOTE: `{variable_data.X}` is NOT interpolated by Tebex commands (it's sent literally to the server).
+- **Fallback modal (checkoutDiretoComSteve)**: still exists as defensive code for unexpected 404s, but "pelo" nicks never reach it (blocked on frontend). The modal text about typing the nick in "Minecraft Username" is INACCURATE — the store has no Storefront, so no such field exists.
 
 ## API Endpoints
 - Headless: `https://headless.tebex.io/api/accounts/{publicToken}/baskets` (POST)
@@ -32,233 +32,57 @@
 
 ## Problema: Comandos executados para "Steve" em vez do jogador real
 
-> ⚠️ IMPORTANTE: Esta solução depende tanto do código quanto da configuração do painel da Tebex. Não remova o fallback para "Steve" sem entender este fluxo.
+> ⚠️ IMPORTANTE: Este problema foi investigado a fundo e a SOLUÇÃO FINAL é bloquear o nick no frontend (opção A). O fallback "Steve" existe como código defensivo, mas NÃO entrega VIP corretamente.
 
 ### Contexto
 
-A Tebex Headless API rejeita alguns usernames (ex.: `Pelicaneitor`) retornando:
+A Tebex Headless API rejeita usernames contendo "pelo" (case-insensitive, ex.: `Pelicaneitor`, `tudopeloscara`) retornando:
 
 ```
 404 Invalid Username
 ```
 
-Quando isso acontece, o sistema utiliza um fallback criando o basket com:
+Tentativas de contornar via fallback (basket com `username: "Steve"` + `variable_data`) NÃO funcionam porque:
 
-```json
-{
-  "username": "Steve"
-}
-```
+1. `{variable_data.X}` **não é interpolado** pela Tebex nos comandos — é enviado literalmente pro servidor (confirmado no log LP: `{variable_data.nickname} is not a valid username/uuid`)
+2. Só `{username}`/`{nickname}` resolvem — e ambos usam o `username` do basket
+3. A variável global `"Digite seu Nick no Minecraft."` causa erro 400 ao adicionar pacotes, mesmo com valor `"Steve"` (validação de username inválido)
+4. O site **não tem Storefront** — o checkout do Tebex vai direto pro pagamento, SEM campo "Minecraft Username" pra jogador corrigir o nick
 
-e envia o nick verdadeiro através de:
-
-```json
-variable_data
-```
-
-O problema é que, se `variable_data` estiver incorreto, a Tebex executa todos os comandos para **Steve**, e não para o jogador que comprou.
-
----
-
-### Causa raiz
-
-A Tebex **não aceita qualquer chave** dentro de `variable_data`.
-
-Ela procura exatamente o nome da variável global cadastrada no painel.
-
-Variável cadastrada atualmente:
-
-```
-Digite seu Nick no Minecraft.
-```
-
-Antes o código enviava:
-
-```js
-variable_data: {
-    nickname: nickname
-}
-```
-
-Como essa chave não existe na Tebex, ela era descartada.
-
-Resultado:
+Resultado do fallback Steve:
 
 - checkout criado
 - pagamento aprovado
-- LuckPerms executado para Steve
+- LuckPerms executado para **Steve** (ninguém recebe o VIP)
 
----
+### Solução implementada (final)
 
-### Solução implementada
-
-O arquivo:
-
-```
-js/checkout.js
-```
-
-agora envia duas chaves:
+**Bloqueio no frontend antes do checkout** em `js/checkout.js`:
 
 ```js
-variable_data: {
-    "Digite seu Nick no Minecraft.": "Steve",
-    "nickname": nickname
+if (/pelo/i.test(nickname)) {
+  mostrarToast("❌ Seu nick contém um termo bloqueado pela plataforma de pagamento (Tebex). Contate o suporte no Discord para concluir a compra.");
+  return;
 }
 ```
 
-A primeira é obrigatória para a Tebex, mas usa `"Steve"` (valor seguro que passa o content filter).
+Aplicado em `finalizarCompra()` (ao clicar em finalizar) e `confirmarCompra()` (defesa dupla).
 
-A segunda é usada internamente pelo projeto.
+Fluxo do nick bloqueado:
 
-> ⚠️ Nota: A chave `"Digite seu Nick no Minecraft."` no `variable_data` do basket causava erro 400 ao adicionar pacotes, mesmo com o valor `"Steve"`. Foi removida do código. O fluxo atual envia apenas `variable_data: { nickname: nickname }` tanto no basket quanto nos pacotes. O jogador é orientado pelo modal a digitar o nick real no campo "Minecraft Username" da página da Tebex, e os comandos LuckPerms usam `{username}` (o valor digitado).
+- Nenhum basket é criado
+- Nenhum pagamento é perdido
+- Jogador é orientado a contatar o suporte no Discord
+- Entrega do VIP pra esses nicks é feita manualmente pelo suporte
 
----
+### Estado do código (js/checkout.js)
 
-### Fluxo atual
+- `variable_data` em TODOS os lugares é apenas `{ nickname: nickname }` (chave interna, não usada pela Tebex)
+- `checkoutDireto()` — fluxo normal: `username: nickname`, funciona 100%
+- `checkoutDiretoComSteve()` — código defensivo para 404s inesperados (não "pelo", que é bloqueado antes). NÃO entregar VIP corretamente — só usado como última rede de segurança
 
-#### Nick normal
+### Comandos no painel Tebex
 
-```
-checkoutDireto()
+Devem usar `{username}` (ou `{nickname}`, que é sinônimo) — EX: `/lp user {username} parent addtemp vip 30d`.
 
-↓
-
-POST username = jogador
-
-↓
-
-200 OK
-
-↓
-
-Checkout Tebex
-
-↓
-
-Pagamento
-
-↓
-
-LuckPerms executa normalmente
-```
-
----
-
-#### Nick rejeitado pela API
-
-Exemplo:
-
-```
-Pelicaneitor
-```
-
-Fluxo:
-
-```
-checkoutDireto()
-
-↓
-
-404 Invalid Username
-
-↓
-
-checkoutDiretoComSteve()
-
-↓
-
-POST username = Steve
-
-↓
-
-variable_data = {
-    "Digite seu Nick no Minecraft.": "Steve",
-    "nickname": "Pelicaneitor"
-}
-
-↓
-
-200 OK
-
-↓
-
-Modal avisa o jogador
-
-↓
-
-Redirect para Tebex
-
-↓
-
-Jogador digita o nick verdadeiro
-no campo "Minecraft Username"
-
-↓
-
-Pagamento
-
-↓
-
-LuckPerms executa para Pelicaneitor
-```
-
----
-
-### Configuração obrigatória na Tebex
-
-No painel da Tebex:
-
-```
-Settings
-    → Storefront
-        → Options
-            → Require Online Store Username
-```
-
-Valor:
-
-```
-Required
-```
-
-Sem essa configuração o campo de username não aparece no checkout e o fallback deixa de funcionar corretamente.
-
----
-
-### Arquivos relacionados
-
-```
-js/checkout.js
-```
-
-Responsável por:
-
-- checkoutDireto()
-- checkoutDiretoComSteve()
-- confirmarCompra()
-
-```
-index.html
-```
-
-Modal informando o fallback Steve.
-
-```
-css/style.css
-```
-
-Estilos do modal.
-
----
-
-### NÃO ALTERAR
-
-Se remover:
-
-- username = "Steve"
-- variável "Digite seu Nick no Minecraft."
-- modal de aviso
-- campo obrigatório de username na Tebex
-
-o sistema voltará a executar comandos para Steve ou falhará para jogadores cujo nick seja rejeitado pela Headless API.
+**NÃO usar** `{variable_data.X}` — a Tebex envia literal e o comando quebra no servidor.
