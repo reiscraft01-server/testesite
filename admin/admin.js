@@ -12,13 +12,29 @@ function mostrarTela(tela) {
 }
 
 async function init() {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (session) {
-    mostrarTela("dashboard");
-    carregarPedidos();
-  } else {
+  try {
+    if (!window.supabase) {
+      throw new Error("modulo de autenticacao indisponivel");
+    }
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      mostrarTela("dashboard");
+      carregarPedidos();
+    } else {
+      mostrarTela("login");
+    }
+  } catch (err) {
+    console.error("[ADMIN] init falhou:", err);
+    document.getElementById("login-error").textContent = "❌ Falha ao carregar o módulo de autenticação. Recarregue a página.";
     mostrarTela("login");
   }
+}
+
+function comTimeout(promise, ms) {
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => resolve({ timeout: true }), ms);
+    promise.then(v => { clearTimeout(timer); resolve(v); }).catch(e => { clearTimeout(timer); resolve({ error: e }); });
+  });
 }
 
 async function entrar(event) {
@@ -29,27 +45,39 @@ async function entrar(event) {
   const btn = document.getElementById("login-btn");
   const errEl = document.getElementById("login-error");
 
-  errEl.textContent = "";
-  if (!email || !senha) {
-    errEl.textContent = "⚠️ Preencha email e senha.";
-    return;
-  }
+  try {
+    errEl.textContent = "";
+    if (!email || !senha) {
+      errEl.textContent = "⚠️ Preencha email e senha.";
+      return;
+    }
+    if (!window.supabase) {
+      errEl.textContent = "❌ Falha ao carregar o módulo de autenticação. Recarregue a página.";
+      return;
+    }
 
-  btn.disabled = true;
-  btn.textContent = "⏳ Entrando...";
+    btn.disabled = true;
+    btn.textContent = "⏳ Entrando...";
 
-  const { error } = await supabase.auth.signInWithPassword({ email: email, password: senha });
+    const resultado = await comTimeout(supabase.auth.signInWithPassword({ email: email, password: senha }), 15000);
 
-  if (error) {
-    errEl.textContent = "❌ Email ou senha inválidos.";
+    if (resultado.timeout) {
+      errEl.textContent = "❌ Tempo esgotado — verifique sua conexão e tente novamente.";
+      return;
+    }
+    if (resultado.error) {
+      console.error("[ADMIN] Erro de login:", resultado.error);
+      errEl.textContent = "❌ Email ou senha inválidos.";
+      return;
+    }
+
+    document.getElementById("login-password").value = "";
+    mostrarTela("dashboard");
+    carregarPedidos();
+  } finally {
     btn.disabled = false;
     btn.textContent = "⚔ Entrar";
-    return;
   }
-
-  document.getElementById("login-password").value = "";
-  mostrarTela("dashboard");
-  carregarPedidos();
 }
 
 async function sair() {

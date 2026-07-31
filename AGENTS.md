@@ -90,7 +90,7 @@ Devem usar `{username}` (ou `{nickname}`, que é sinônimo) — EX: `/lp user {u
 ## Painel Admin de Pedidos (Supabase)
 
 - Projeto Supabase: `pnycyhwostszwwfgqgyf` — URL/anon key em `js/checkout.js` e `admin/admin.js` (publishable key)
-- Admin: `<site>/admin/` — **protegido por login** (Supabase Auth): usuário `reis.craft.01@gmail.com` (criado no dashboard Auth → Users). Sem sessão válida a tela de login bloqueia a lista. Página usa supabase-js CDN; `signInWithPassword` → sessão persistida; botão "Sair" → `signOut()`. A lista só é carregada com sessão. (Limitação: o HTML/JS são públicos por ser GitHub Pages estático, mas as credenciais vivem no Supabase Auth, não no código.)
+- Admin: `<site>/admin/` — **protegido por login** (Supabase Auth): usuário `reis.craft.01@gmail.com` (criado no dashboard Auth → Users). Sem sessão válida a tela de login bloqueia a lista. Página usa supabase-js **hospedado localmente** (`admin/supabase.min.js`, sem CDN externo — jsdelivr estava travando no login) + `signInWithPassword` com timeout de 15s e try/finally que restaura o botão; botão "Sair" → `signOut()`. A lista só é carregada com sessão. (Limitação: o HTML/JS são públicos por ser GitHub Pages estático, mas as credenciais vivem no Supabase Auth, não no código.)
 - Tabela: `orders` — colunas: `nickname`, `vip`, `homes`, `desban`, `total`, `status`, `tebex_txn_id` (= `basket.ident`), `homes_delivered`, `desban_delivered`, `created_at`
 
 ### Modelo de status (decidido)
