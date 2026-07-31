@@ -112,7 +112,7 @@ const PRODUTOS = {
       {
         id: "home",
         nome: "Home Adicional",
-        preco: 2.51,
+        preco: 7.03,
         moeda: "USD",
         tebexId: 7588036,
         maxQtd: null,
@@ -132,6 +132,19 @@ const PRODUTOS = {
         icone: "🔓",
         imagem: "assets/desban.webp",
         descricao: "Recupere seu acesso ao reino."
+      },
+      {
+        id: "kingspass",
+        nome: "King's Pass",
+        preco: 44.90,
+        moeda: "USD",
+        tebexId: null,
+        maxQtd: 1,
+        cor: "#ffd700",
+        icone: "🎫",
+        imagem: "assets/kingspass.webp",
+        imagemKit: "assets/kingspass.webp",
+        descricao: "Libera o seu Passe de Batalha exclusivo do reino."
       }
     ]
   }

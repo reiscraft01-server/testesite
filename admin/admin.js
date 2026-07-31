@@ -96,6 +96,7 @@ function formatarProdutos(o) {
   if (o.vip && vips[o.vip]) partes.push("🛡 " + vips[o.vip]);
   if (o.homes > 0) partes.push("🏠 " + o.homes + "x Home");
   if (o.desban) partes.push("🔓 Desban");
+  if (o.bp) partes.push("🎫 King's Pass");
   return partes.join("<br>") || "—";
 }
 

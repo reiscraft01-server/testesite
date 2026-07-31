@@ -22,9 +22,11 @@ function renderizarProdutos() {
           <h3 style="color:${item.cor}">${item.nome}</h3>
           <h4 class="preco-${item.id}" style="color:${item.cor}">${formatarPreco(item.preco)}</h4>
           <p class="vip-desc">${item.descricao}</p>
+          ${item.tebexId ? `
           <button class="mc-btn mc-btn-add" onclick="adicionarAoCarrinho('${item.id}')">
             ${chave === "vips" ? "⚔ Escolher VIP" : "📦 Adicionar ao carrinho"}
-          </button>
+          </button>` : `
+          <button class="mc-btn mc-btn-add" disabled style="opacity:.55;cursor:not-allowed">🎫 Em breve</button>`}
           <button class="info-btn" onclick="abrirInfo('${item.id}')">📜 Saiba mais</button>
         </div>`;
     }
@@ -91,6 +93,19 @@ function renderizarCarrinho() {
       </div>`;
   }
 
+  if (state.bp) {
+    const bp = getProduto("kingspass");
+    panel.innerHTML += `
+      <div class="cart-item" data-tipo="bp">
+        <img class="cart-item-img" src="${bp.imagem}" alt="King's Pass">
+        <div class="cart-item-info">
+          <b style="color:${bp.cor}">King's Pass</b>
+          <span class="cart-item-preco">${formatarPreco(bp.preco)}</span>
+        </div>
+        <button class="cart-item-remove" onclick="removerDoCarrinho('bp')" title="Remover">✕</button>
+      </div>`;
+  }
+
   count.textContent = carrinho.quantidadeItens;
   totalEl.innerHTML = `<h3 id="cart-total">Total: ${formatarPreco(carrinho.total)}</h3>`;
 
@@ -143,7 +158,17 @@ function renderizarResumo(nickname) {
     <div class="resumo-linha">
         <span class="resumo-label">Desban</span>
       <span class="resumo-valor">${state.desban ? "Sim (" + formatarPreco(getProduto("desban").preco) + ")" : "Não"}</span>
-    </div>
+    </div>`;
+
+  if (state.bp) {
+    html += `
+      <div class="resumo-linha">
+        <span class="resumo-label">King's Pass</span>
+        <span class="resumo-valor" style="color:#ffd700">🎫 ${formatarPreco(getProduto("kingspass").preco)}</span>
+      </div>`;
+  }
+
+  html += `
     <div class="resumo-divider"></div>
     <div class="resumo-linha resumo-total">
         <span class="resumo-label">Total</span>
@@ -182,6 +207,17 @@ function adicionarAoCarrinho(produtoId) {
       }
       carrinho.toggleDesban();
       mostrarToast("🔓 Desban adicionado ao carrinho!");
+    } else if (produtoId === "kingspass") {
+      if (!prod.tebexId) {
+        mostrarToast("🎫 King's Pass estará disponível em breve!");
+        return;
+      }
+      if (carrinho.state.bp) {
+        mostrarToast("🎫 King's Pass já está no carrinho!");
+        return;
+      }
+      carrinho.toggleBp();
+      mostrarToast("🎫 King's Pass adicionado ao carrinho!");
     }
   }
 
@@ -193,6 +229,7 @@ function removerDoCarrinho(tipo) {
   if (tipo === "vip") carrinho.removerVip();
   else if (tipo === "home") carrinho.setarHomes(0);
   else if (tipo === "desban") carrinho.removerDesban();
+  else if (tipo === "bp") carrinho.removerBp();
   atualizarInterface();
 }
 
@@ -214,7 +251,7 @@ function abrirInfo(produtoId) {
   const texto = document.getElementById("textoVip");
 
   titulo.innerHTML = `${prod.icone} ${prod.nome}`;
-  imagem.src = prod.imagemKit;
+  imagem.src = prod.imagemKit || prod.imagem;
   imagem.alt = prod.nome;
 
   let beneficiosHtml = "";

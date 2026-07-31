@@ -239,6 +239,7 @@ async function registrarPedido(nickname, items, basketIdent) {
       vip: null,
       homes: 0,
       desban: false,
+      bp: false,
       total: carrinho.total,
       tebex_txn_id: basketIdent,
       status: precisaManual ? "pending" : "completed"
@@ -247,6 +248,7 @@ async function registrarPedido(nickname, items, basketIdent) {
     if (state.vip) payload.vip = state.vip.id;
     if (state.homes > 0) payload.homes = state.homes;
     if (state.desban) payload.desban = true;
+    if (state.bp) payload.bp = true;
 
     await fetch(`${CONFIG.supabase.url}/rest/v1/orders`, {
       method: "POST",

@@ -1,6 +1,6 @@
 class Carrinho {
   constructor() {
-    this.state = { vip: null, homes: 0, desban: false };
+    this.state = { vip: null, homes: 0, desban: false, bp: false };
     this.listeners = [];
   }
 
@@ -61,11 +61,27 @@ class Carrinho {
     this._notify();
   }
 
+  setBp(valor) {
+    this.state.bp = !!valor;
+    this._notify();
+  }
+
+  toggleBp() {
+    this.state.bp = !this.state.bp;
+    this._notify();
+  }
+
+  removerBp() {
+    this.state.bp = false;
+    this._notify();
+  }
+
   get total() {
     let t = 0;
     if (this.state.vip) t += this.state.vip.preco;
     t += this.state.homes * (getProduto("home")?.preco ?? 0);
     if (this.state.desban) t += getProduto("desban")?.preco ?? 0;
+    if (this.state.bp) t += getProduto("kingspass")?.preco ?? 0;
     return t;
   }
 
@@ -74,6 +90,7 @@ class Carrinho {
     if (this.state.vip) q++;
     if (this.state.homes > 0) q += this.state.homes;
     if (this.state.desban) q++;
+    if (this.state.bp) q++;
     return q;
   }
 
@@ -90,6 +107,10 @@ class Carrinho {
       const desban = getProduto("desban");
       produtos.push({ id: "desban", nome: "Seja Desbanido", preco: desban.preco, quantidade: 1, tipo: "extra" });
     }
+    if (this.state.bp) {
+      const bp = getProduto("kingspass");
+      produtos.push({ id: "kingspass", nome: "King's Pass", preco: bp.preco, quantidade: 1, tipo: "extra" });
+    }
     return produtos;
   }
 
@@ -104,11 +125,15 @@ class Carrinho {
     if (this.state.desban) {
       items.push({ package_id: getProduto("desban").tebexId, quantity: 1 });
     }
+    if (this.state.bp) {
+      const bp = getProduto("kingspass");
+      if (bp.tebexId) items.push({ package_id: bp.tebexId, quantity: 1 });
+    }
     return items;
   }
 
   limpar() {
-    this.state = { vip: null, homes: 0, desban: false };
+    this.state = { vip: null, homes: 0, desban: false, bp: false };
     this._notify();
   }
 }
