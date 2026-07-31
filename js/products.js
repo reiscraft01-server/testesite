@@ -1,4 +1,4 @@
-const PRODUTOS = {
+﻿const PRODUTOS = {
   vips: {
     titulo: "Escolha seu VIP",
     exclusivo: true,
@@ -11,18 +11,18 @@ const PRODUTOS = {
         moeda: "USD",
         tebexId: 7588021,
         cor: "#c0c0c0",
-        icone: "🛡",
-        imagem: "assets/vip-guerreiro.png",
-        imagemKit: "assets/kit-guerreiro.png",
+        icone: "ðŸ›¡",
+        imagem: "assets/vip-guerreiro.webp",
+        imagemKit: "assets/kit-guerreiro.webp",
         descricao: "Kit Ferro exclusivo",
         beneficios: [
-          "Full Ferro - Proteção IV",
-          "Escudo - Inquebrável III",
-          "Ferramentas Eficiência IV e Afiação IV",
+          "Full Ferro - ProteÃ§Ã£o IV",
+          "Escudo - InquebrÃ¡vel III",
+          "Ferramentas EficiÃªncia IV e AfiaÃ§Ã£o IV",
           "4x Totem da Imortalidade",
-          "32x Pérola do End",
-          "64x Filé",
-          "16x Maçã Dourada"
+          "32x PÃ©rola do End",
+          "64x FilÃ©",
+          "16x MaÃ§Ã£ Dourada"
         ]
       },
       {
@@ -32,20 +32,20 @@ const PRODUTOS = {
         moeda: "USD",
         tebexId: 7588026,
         cor: "#00d4ff",
-        icone: "💎",
-        imagem: "assets/vip-supremo.png",
-        imagemKit: "assets/kit-supremo.png",
+        icone: "ðŸ’Ž",
+        imagem: "assets/vip-supremo.webp",
+        imagemKit: "assets/kit-supremo.webp",
         descricao: "Kit Diamante exclusivo",
         beneficios: [
-          "Full Diamante - Proteção III",
-          "Escudo - Inquebrável III",
-          "Ferramentas Eficiência III e Afiação III",
-          "12x Maçã Dourada",
-          "32x Pérola do End",
+          "Full Diamante - ProteÃ§Ã£o III",
+          "Escudo - InquebrÃ¡vel III",
+          "Ferramentas EficiÃªncia III e AfiaÃ§Ã£o III",
+          "12x MaÃ§Ã£ Dourada",
+          "32x PÃ©rola do End",
           "16x Diamantes",
-          "3x Maçã Dourada Encantada",
+          "3x MaÃ§Ã£ Dourada Encantada",
           "1x Melhoria de Netherita",
-          "64x Filé"
+          "64x FilÃ©"
         ]
       },
       {
@@ -55,24 +55,24 @@ const PRODUTOS = {
         moeda: "USD",
         tebexId: 7588030,
         cor: "#b060ff",
-        icone: "⚔",
-        imagem: "assets/vip-rei.png",
-        imagemKit: "assets/kit-rei.png",
+        icone: "âš”",
+        imagem: "assets/vip-rei.webp",
+        imagemKit: "assets/kit-rei.webp",
         descricao: "Kit Netherite exclusivo",
         beneficios: [
-          "Full Netherite - Proteção IV",
-          "Escudo - Inquebrável III",
-          "Ferramentas Eficiência IV e Afiação IV",
+          "Full Netherite - ProteÃ§Ã£o IV",
+          "Escudo - InquebrÃ¡vel III",
+          "Ferramentas EficiÃªncia IV e AfiaÃ§Ã£o IV",
           "Mace",
-          "Lança de Netherite Encantada",
+          "LanÃ§a de Netherite Encantada",
           "7x Cristal do End",
-          "5x Maçã Dourada Encantada",
-          "20x Maçã Dourada",
-          "64x Pérola do End",
+          "5x MaÃ§Ã£ Dourada Encantada",
+          "20x MaÃ§Ã£ Dourada",
+          "64x PÃ©rola do End",
           "5 Packs de Foguete",
           "16x Obsidian",
           "5x Totem da Imortalidade",
-          "1x Élitro"
+          "1x Ã‰litro"
         ]
       },
       {
@@ -82,23 +82,23 @@ const PRODUTOS = {
         moeda: "USD",
         tebexId: 7588032,
         cor: "#ffd700",
-        icone: "👑",
-        imagem: "assets/vip-deus.png",
-        imagemKit: "assets/kit-deus.png",
+        icone: "ðŸ‘‘",
+        imagem: "assets/vip-deus.webp",
+        imagemKit: "assets/kit-deus.webp",
         descricao: "Kit Rei exclusivo",
         beneficios: [
           "Full Netherite - Full Enchant",
           "Escudo - Full Enchant",
-          "Ferramentas Eficiência V e Afiação V",
-          "32x Maçã Dourada",
-          "10x Maçã Dourada Encantada",
-          "32x Pérola do End",
+          "Ferramentas EficiÃªncia V e AfiaÃ§Ã£o V",
+          "32x MaÃ§Ã£ Dourada",
+          "10x MaÃ§Ã£ Dourada Encantada",
+          "32x PÃ©rola do End",
           "5 Packs de Foguete",
           "32x Obsidian",
           "10x Totem da Imortalidade",
-          "1x Élitro Full Enchant",
+          "1x Ã‰litro Full Enchant",
           "Mace Full Enchant",
-          "Lança Full Enchant",
+          "LanÃ§a Full Enchant",
           "16x Cristal do End"
         ]
       }
@@ -117,8 +117,8 @@ const PRODUTOS = {
         tebexId: 7588036,
         maxQtd: null,
         cor: "#ff8c00",
-        icone: "🏠",
-        imagem: "assets/home.png",
+        icone: "ðŸ ",
+        imagem: "assets/home.webp",
         descricao: "Adicione um novo ponto de teleporte."
       },
       {
@@ -129,8 +129,8 @@ const PRODUTOS = {
         tebexId: 7588047,
         maxQtd: 1,
         cor: "#ff4444",
-        icone: "🔓",
-        imagem: "assets/desban.png",
+        icone: "ðŸ”“",
+        imagem: "assets/desban.webp",
         descricao: "Recupere seu acesso ao reino."
       }
     ]
