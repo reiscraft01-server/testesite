@@ -816,6 +816,14 @@ button:hover { background:#f5d76e; filter:brightness(1.05); }
     font-size:15px; line-height:1.85; margin-bottom:26px;
 }
 
+.manual-texto code {
+    font-family:Consolas,'Courier New',monospace; font-size:13px;
+    background:rgba(168,85,247,.16); color:#ffd700;
+    padding:2px 8px; border-radius:6px;
+    border:1px solid rgba(168,85,247,.35);
+    white-space:nowrap;
+}
+
 .manual-continuar-btn {
     display:inline-flex; align-items:center; justify-content:center; gap:10px;
     background:linear-gradient(135deg,#ffd700 0%,#d4af37 100%);

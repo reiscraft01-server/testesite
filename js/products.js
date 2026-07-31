@@ -120,7 +120,11 @@ const PRODUTOS = {
         icone: "🏠",
         imagem: "assets/home.webp",
         descricao: "Adicione um novo ponto de teleporte.",
-        ativacaoManual: true
+        ativacaoManual: true,
+        manual: {
+          titulo: "🏠 Home Adicional",
+          texto: "Adicione um ponto de teleporte &quot;Home&quot; permanente ao seu reino.<br>Ao comprar, seu limite de homes aumenta em <b>+1</b> (definitivo, não expira).<br><br><b>Como usar:</b><br>• No local que quiser salvar, digite: <code>/sethome base</code><br>• Para voltar até ele de qualquer lugar, digite: <code>/home base</code><br>• Quer outra? <code>/sethome base2</code> + <code>/home base2</code>, <code>/sethome base3</code> + <code>/home base3</code>...<br><br>📦 <b>Ativação Manual:</b> após concluir o pagamento, fale com o suporte no Discord informando o número do pedido para ativarmos o mais rápido possível."
+        }
       },
       {
         id: "desban",
@@ -133,7 +137,11 @@ const PRODUTOS = {
         icone: "🔓",
         imagem: "assets/desban.webp",
         descricao: "Recupere seu acesso ao reino.",
-        ativacaoManual: true
+        ativacaoManual: true,
+        manual: {
+          titulo: "🔓 Seja Desbanido",
+          texto: "Recupere o acesso ao seu reino após um banimento.<br>O desbanimento é aplicado manualmente pela equipe.<br><br>📦 <b>Ativação Manual:</b> após concluir o pagamento, fale com o suporte no Discord informando o número do pedido para liberarmos seu acesso o mais rápido possível."
+        }
       },
       {
         id: "kingspass",

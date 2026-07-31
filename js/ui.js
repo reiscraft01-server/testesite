@@ -179,11 +179,8 @@ function renderizarResumo(nickname) {
   resumo.innerHTML = html;
 }
 
-function adicionarAoCarrinho(produtoId) {
-  const prod = getProduto(produtoId);
-  if (!prod) return;
-
-  const categoria = Object.values(PRODUTOS).find(c => c.itens.some(i => i.id === produtoId));
+function adicionarProdutoDireto(prod) {
+  const categoria = Object.values(PRODUTOS).find(c => c.itens.some(i => i.id === prod.id));
   if (!categoria) return;
 
   if (categoria.exclusivo) {
@@ -197,17 +194,17 @@ function adicionarAoCarrinho(produtoId) {
       mostrarToast(`✅ ${prod.nome} adicionado ao carrinho!`);
     }
   } else {
-    if (produtoId === "home") {
+    if (prod.id === "home") {
       carrinho.adicionarHome();
       mostrarToast("🏠 +1 Home Adicional adicionada!");
-    } else if (produtoId === "desban") {
+    } else if (prod.id === "desban") {
       if (carrinho.state.desban) {
         mostrarToast("🔓 Desban já está no carrinho!");
         return;
       }
       carrinho.toggleDesban();
       mostrarToast("🔓 Desban adicionado ao carrinho!");
-    } else if (produtoId === "kingspass") {
+    } else if (prod.id === "kingspass") {
       if (!prod.tebexId) {
         mostrarToast("🎫 King's Pass estará disponível em breve!");
         return;
@@ -223,6 +220,23 @@ function adicionarAoCarrinho(produtoId) {
 
   fecharInfo();
   atualizarInterface();
+}
+
+function adicionarAoCarrinho(produtoId) {
+  const prod = getProduto(produtoId);
+  if (!prod) return;
+
+  const zerado = prod.id === "home" ? carrinho.state.homes === 0
+    : prod.id === "desban" ? !carrinho.state.desban
+    : prod.id === "kingspass" ? !carrinho.state.bp
+    : false;
+
+  if (prod.ativacaoManual && zerado) {
+    abrirManual(prod);
+    return;
+  }
+
+  adicionarProdutoDireto(prod);
 }
 
 function removerDoCarrinho(tipo) {
@@ -269,9 +283,9 @@ function fecharManual() {
 
 function continuarComprando() {
   if (!manualProdutoAtual) return;
-  const produtoId = manualProdutoAtual.id;
+  const prod = manualProdutoAtual;
   fecharManual();
-  adicionarAoCarrinho(produtoId);
+  adicionarProdutoDireto(prod);
 }
 
 function abrirInfo(produtoId) {
