@@ -243,22 +243,21 @@ function alterarHome(delta) {
 
 const MANUAL_DEFAULT = {
   titulo: "📦 Ativação Manual",
-  texto: "Este extra é ativado manualmente pela equipe do ReisCraft.<br>Após concluir sua compra, entre em contato com nosso suporte no Discord informando o número do seu pedido para que possamos realizar a ativação o mais rápido possível.",
-  botao: "Entrar no Discord",
-  discordUrl: "https://discord.gg/BGQZTPGbH"
+  texto: "Este extra é ativado manualmente pela equipe do ReisCraft.<br>Após concluir sua compra, entre em contato com nosso suporte no Discord informando o número do seu pedido para que possamos realizar a ativação o mais rápido possível."
 };
+
+let manualProdutoAtual = null;
 
 function abrirManual(prod) {
   const popup = document.getElementById("manual-popup");
   if (!popup) return;
 
+  manualProdutoAtual = prod;
   const conf = { ...MANUAL_DEFAULT, ...(prod.manual || {}) };
   const titulo = document.getElementById("manual-titulo");
   const texto = document.getElementById("manual-texto");
   if (titulo) titulo.textContent = conf.titulo;
   if (texto) texto.innerHTML = conf.texto;
-  const btn = document.querySelector("#manual-popup .discord-btn");
-  if (btn) btn.href = conf.discordUrl;
 
   popup.style.display = "flex";
 }
@@ -266,6 +265,13 @@ function abrirManual(prod) {
 function fecharManual() {
   const popup = document.getElementById("manual-popup");
   if (popup) popup.style.display = "none";
+}
+
+function continuarComprando() {
+  if (!manualProdutoAtual) return;
+  const produtoId = manualProdutoAtual.id;
+  fecharManual();
+  adicionarAoCarrinho(produtoId);
 }
 
 function abrirInfo(produtoId) {
