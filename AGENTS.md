@@ -102,12 +102,12 @@ agora envia duas chaves:
 
 ```js
 variable_data: {
-    "Digite seu Nick no Minecraft.": nickname,
+    "Digite seu Nick no Minecraft.": "Steve",
     "nickname": nickname
 }
 ```
 
-A primeira é obrigatória para a Tebex.
+A primeira é obrigatória para a Tebex, mas usa `"Steve"` (valor seguro que passa o content filter).
 
 A segunda é usada internamente pelo projeto.
 
@@ -171,7 +171,7 @@ POST username = Steve
 ↓
 
 variable_data = {
-    "Digite seu Nick no Minecraft.": "Pelicaneitor",
+    "Digite seu Nick no Minecraft.": "Steve",
     "nickname": "Pelicaneitor"
 }
 
