@@ -1,7 +1,13 @@
 const SUPABASE_URL = "https://pnycyhwostszwwfgqgyf.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_QfFXkGVf86cSsw46z3aI2w_PSeMNPCV";
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let sbClient = null;
+
+function getSupabase() {
+  if (!window.supabase) return null;
+  if (!sbClient) sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  return sbClient;
+}
 
 let filtroAtual = "todos";
 let ordersCache = [];
@@ -13,7 +19,12 @@ function mostrarTela(tela) {
 
 function sistemaPronto() {
   const statusEl = document.getElementById("login-status");
-  if (statusEl) statusEl.textContent = "🛰 Status: sistema pronto";
+  if (!statusEl) return;
+  if (window.__supabaseLoadOk && window.supabase) {
+    statusEl.textContent = "🛰 Status: sistema pronto";
+  } else {
+    statusEl.textContent = "⚠️ Status: módulo de autenticação ausente — recarregue a página (Ctrl+F5)";
+  }
 }
 
 window.onerror = function (msg) {
@@ -22,12 +33,15 @@ window.onerror = function (msg) {
   console.error("[ADMIN] Erro global:", msg);
 };
 
+sistemaPronto();
+
 async function init() {
   try {
-    if (!window.supabase) {
+    const sb = getSupabase();
+    if (!sb) {
       throw new Error("modulo de autenticacao indisponivel");
     }
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await sb.auth.getSession();
     if (session) {
       mostrarTela("dashboard");
       carregarPedidos();
@@ -70,7 +84,13 @@ async function entrar(event) {
     btn.disabled = true;
     btn.textContent = "⏳ Entrando...";
 
-    const resultado = await comTimeout(supabase.auth.signInWithPassword({ email: email, password: senha }), 15000);
+    const sb = getSupabase();
+    if (!sb) {
+      errEl.textContent = "❌ Falha ao carregar o módulo de autenticação. Recarregue a página.";
+      return;
+    }
+
+    const resultado = await comTimeout(sb.auth.signInWithPassword({ email: email, password: senha }), 15000);
 
     if (resultado.timeout) {
       errEl.textContent = "❌ Tempo esgotado — verifique sua conexão e tente novamente.";
@@ -92,7 +112,8 @@ async function entrar(event) {
 }
 
 async function sair() {
-  await supabase.auth.signOut();
+  const sb = getSupabase();
+  if (sb) await sb.auth.signOut();
   document.getElementById("login-email").value = "";
   mostrarTela("login");
 }

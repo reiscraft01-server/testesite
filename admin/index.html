@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Painel do Reino - Reis Craft</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="admin.css?v=3">
+<link rel="stylesheet" href="admin.css?v=4">
 </head>
 <body>
 
@@ -95,7 +95,20 @@
   </div>
 </div>
 
-<script src="supabase.min.js"></script>
-<script src="admin.js?v=2"></script>
+<script>
+  window.__supabaseLoadOk = false;
+  function supabaseOk() { window.__supabaseLoadOk = true; }
+  function supabaseFallback() {
+    var s = document.createElement("script");
+    s.src = "https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.min.js";
+    s.onload = function () {
+      supabaseOk();
+      if (window.sistemaPronto) window.sistemaPronto();
+    };
+    document.head.appendChild(s);
+  }
+</script>
+<script src="supabase.min.js?v=2" onload="supabaseOk()" onerror="supabaseFallback()"></script>
+<script src="admin.js?v=3"></script>
 </body>
 </html>
