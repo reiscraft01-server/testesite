@@ -1113,29 +1113,7 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
 #mc-loja {
     color:#ffd700;
     font-size:38px;
-    display:flex; align-items:center; justify-content:center; gap:16px;
-    background:linear-gradient(180deg,#fff6c8 0%,#ffd700 40%,#c9920a 100%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    filter:drop-shadow(0 2px 8px rgba(255,215,0,.35)) drop-shadow(0 0 28px rgba(170,0,255,.22));
-    animation:titleGlow 3.5s ease-in-out infinite;
-}
-
-#mc-loja::before,
-#mc-loja::after {
-    content:""; flex:0 0 auto; width:72px; height:2px; border-radius:2px;
-}
-
-#mc-loja::before {
-    background:linear-gradient(90deg,transparent,rgba(255,215,0,.15),#d4af37);
-}
-
-#mc-loja::after {
-    background:linear-gradient(90deg,#d4af37,rgba(255,215,0,.15),transparent);
-}
-
-@keyframes titleGlow {
-    0%,100% { filter:drop-shadow(0 2px 8px rgba(255,215,0,.35)) drop-shadow(0 0 22px rgba(170,0,255,.18)); }
-    50%     { filter:drop-shadow(0 2px 12px rgba(255,215,0,.55)) drop-shadow(0 0 38px rgba(170,0,255,.32)); }
+    text-shadow:0 2px 10px rgba(0,0,0,.7),0 0 20px rgba(255,215,0,.4);
 }
 
 .loja-header {
@@ -1151,9 +1129,7 @@ footer { padding:40px 20px 20px; background:rgba(0,0,0,.85); font-family:Arial,s
 }
 
 @media(max-width:900px){
-    #mc-loja { font-size:26px; gap:10px; }
-    #mc-loja::before,
-    #mc-loja::after { width:38px; }
+    #mc-loja { font-size:26px; }
 }
 
 /* ================= */
