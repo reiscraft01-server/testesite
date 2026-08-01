@@ -146,7 +146,7 @@ const PRODUTOS = {
       {
         id: "kingspass",
         nome: "King's Pass",
-        preco: 44.90,
+        preco: 29.90,
         moeda: "USD",
         tebexId: null,
         maxQtd: 1,
