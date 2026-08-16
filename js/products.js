@@ -118,8 +118,8 @@ const PRODUTOS = {
         maxQtd: 1,
         cor: "#00d4ff",
         icone: "⛏",
-        imagem: "assets/kit-diamante.webp",
-        imagemKit: "assets/kit-diamante.webp",
+        imagem: "assets/picareta-diamante.webp",
+        imagemKit: "assets/picareta-diamante.webp",
         descricao: "Mine em área 3x3 com eficiência de diamante.",
         beneficios: [
           "Mina blocos em área 3x3",
@@ -137,8 +137,8 @@ const PRODUTOS = {
         maxQtd: 1,
         cor: "#b060ff",
         icone: "⛏",
-        imagem: "assets/kit-netherite.webp",
-        imagemKit: "assets/kit-netherite.webp",
+        imagem: "assets/picareta-netherite.webp",
+        imagemKit: "assets/picareta-netherite.webp",
         descricao: "Mine em área 3x3 com o poder da netherite.",
         beneficios: [
           "Mina blocos em área 3x3",
