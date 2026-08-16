@@ -29,6 +29,16 @@
 - VIP Rei: 7588032 ($9.78)
 - Home Adicional: 7588036 ($0.49)
 - Desban: 7588047 ($9.78)
+- Picareta 3x3 Diamante: `null` (criar no painel — comando com `{username}`)
+- Picareta 3x3 Netherite: `null` (criar no painel — comando com `{username}`)
+
+## Produto: Picareta 3x3
+
+- Categoria `picaretas` em `js/products.js` com `exclusivo: true` — só UMA variação no carrinho por vez (Diamante R$ 25,00 / Netherite R$ 40,00, exibidos em R$)
+- Cart: slot `picareta` no estado (`js/cart.js`) + métodos `adicionarPicareta()`/`removerPicareta()`; payload `picareta: "<id>"` em `registrarPedido()` (`js/checkout.js`)
+- `tebexId: null` → botão "🎫 Em breve" desabilitado até criar os pacotes no painel
+- Entrega automática (comando Tebex com `{username}`) → `status: "completed"` na criação; admin mostra `⛏ Picareta 3x3 ...` na coluna Produtos
+- ⚠️ Requer coluna `picareta text` na tabela `orders` (SQL Editor: `ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS picareta text;`)
 
 ## Problema: Comandos executados para "Steve" em vez do jogador real
 
@@ -91,12 +101,12 @@ Devem usar `{username}` (ou `{nickname}`, que é sinônimo) — EX: `/lp user {u
 
 - Projeto Supabase: `pnycyhwostszwwfgqgyf` — URL/anon key em `js/checkout.js` e `admin/admin.js` (publishable key)
 - Admin: `<site>/admin/` — **protegido por login** (Supabase Auth): usuário `reis.craft.01@gmail.com` (criado no dashboard Auth → Users). Sem sessão válida a tela de login bloqueia a lista. Página usa supabase-js **hospedado localmente** (`admin/supabase.min.js`, sem CDN externo — jsdelivr estava travando no login) com fallback automático pro unpkg via `onerror` no `<script>`; `sistemaPronto()` escreve o estado dos scripts na tela de login ("🛰 Status:..."), client Supabase é criado preguiçosamente (`getSupabase()`) para `admin.js` nunca morrer no load, `signInWithPassword` com timeout de 15s e try/finally que restaura o botão; botão "Sair" → `signOut()`. A lista só é carregada com sessão. (Limitação: o HTML/JS são públicos por ser GitHub Pages estático, mas as credenciais vivem no Supabase Auth, não no código.)
-- Tabela: `orders` — colunas: `nickname`, `vip`, `homes`, `desban`, `total`, `status`, `tebex_txn_id` (= `basket.ident`), `homes_delivered`, `desban_delivered`, `created_at`
+- Tabela: `orders` — colunas: `nickname`, `vip`, `homes`, `desban`, `picareta`, `total`, `status`, `tebex_txn_id` (= `basket.ident`), `homes_delivered`, `desban_delivered`, `created_at`
 - **RLS ativo com 3 policies `anon`**: `anon_select_orders` (SELECT USING true), `anon_insert_orders` (INSERT WITH CHECK true), `anon_update_orders` (UPDATE USING true). SEM política de DELETE — apagar pedidos só no SQL Editor (`DELETE FROM public.orders WHERE ...`). CUIDADO: sem política de SELECT o REST retorna `[]` em silêncio (não é erro) — qualquer checagem de "tabela vazia" via API era cega antes da policy existir. INSERT sem política → 401 `42501 new row violates row-level security policy`. PATCH/POST via anon key retornam 204 mesmo com 0 linhas afetadas.
 
 ### Modelo de status (decidido)
 
-- Pedido **só com VIP** → `status: "completed"` na criação (`registrarPedido()` em `js/checkout.js`) — entrega automática pelos comandos do painel Tebex
+- Pedido **só com VIP ou Picareta 3x3** → `status: "completed"` na criação (`registrarPedido()` em `js/checkout.js`) — entrega automática pelos comandos do painel Tebex
 - Pedido **com Home Adicional ou Desban** (incluindo misto com VIP) → `status: "pending"` — entrega manual pelo painel (`homes_delivered`/`desban_delivered`)
 - Filtros do admin: "Pendentes" = pending OU home/desban não entregues; "Concluídos" = completed E todas as entregas manuais feitas
 

@@ -106,6 +106,18 @@ function renderizarCarrinho() {
       </div>`;
   }
 
+  if (state.picareta) {
+    panel.innerHTML += `
+      <div class="cart-item" data-tipo="picareta">
+        <img class="cart-item-img" src="${state.picareta.imagem}" alt="${state.picareta.nome}">
+        <div class="cart-item-info">
+          <b style="color:${state.picareta.cor}">${state.picareta.nome}</b>
+          <span class="cart-item-preco">${formatarPreco(state.picareta.preco)}</span>
+        </div>
+        <button class="cart-item-remove" onclick="removerDoCarrinho('picareta')" title="Remover">✕</button>
+      </div>`;
+  }
+
   count.textContent = carrinho.quantidadeItens;
   totalEl.innerHTML = `<h3 id="cart-total">Total: ${formatarPreco(carrinho.total)}</h3>`;
 
@@ -168,6 +180,14 @@ function renderizarResumo(nickname) {
       </div>`;
   }
 
+  if (state.picareta) {
+    html += `
+      <div class="resumo-linha">
+        <span class="resumo-label">Picareta 3x3</span>
+        <span class="resumo-valor" style="color:${state.picareta.cor}">⛏ ${state.picareta.nome} (${formatarPreco(state.picareta.preco)})</span>
+      </div>`;
+  }
+
   html += `
     <div class="resumo-divider"></div>
     <div class="resumo-linha resumo-total">
@@ -180,11 +200,12 @@ function renderizarResumo(nickname) {
 }
 
 function adicionarProdutoDireto(prod) {
-  const categoria = Object.values(PRODUTOS).find(c => c.itens.some(i => i.id === prod.id));
+  const chave = Object.keys(PRODUTOS).find(c => PRODUTOS[c].itens.some(i => i.id === prod.id));
+  const categoria = chave ? PRODUTOS[chave] : null;
   if (!categoria) return;
 
   if (categoria.exclusivo) {
-    const result = carrinho.adicionarVip(prod);
+    const result = chave === "vips" ? carrinho.adicionarVip(prod) : carrinho.adicionarPicareta(prod);
     if (result.substituido) {
       mostrarToast(`✅ ${result.novo} substituiu ${result.anterior} no carrinho!`);
     } else if (result.jaTem) {
@@ -244,6 +265,7 @@ function removerDoCarrinho(tipo) {
   else if (tipo === "home") carrinho.setarHomes(0);
   else if (tipo === "desban") carrinho.removerDesban();
   else if (tipo === "bp") carrinho.removerBp();
+  else if (tipo === "picareta") carrinho.removerPicareta();
   atualizarInterface();
 }
 

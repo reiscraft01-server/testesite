@@ -239,6 +239,7 @@ async function registrarPedido(nickname, items, basketIdent) {
     homes: 0,
     desban: false,
     bp: false,
+    picareta: null,
     total: carrinho.total,
     tebex_txn_id: basketIdent,
     status: precisaManual ? "pending" : "completed"
@@ -248,6 +249,7 @@ async function registrarPedido(nickname, items, basketIdent) {
   if (state.homes > 0) payload.homes = state.homes;
   if (state.desban) payload.desban = true;
   if (state.bp) payload.bp = true;
+  if (state.picareta) payload.picareta = state.picareta.id;
 
   for (let tentativa = 1; tentativa <= 3; tentativa++) {
     try {

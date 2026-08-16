@@ -219,6 +219,7 @@ function formatarProdutos(o) {
   if (o.homes > 0) partes.push("🏠 " + o.homes + "x Home");
   if (o.desban) partes.push("🔓 Desban");
   if (o.bp) partes.push("🎫 King's Pass");
+  if (o.picareta) partes.push("⛏ " + (o.picareta === "picareta_diamante" ? "Picareta 3x3 Diamante" : "Picareta 3x3 Netherite"));
   return partes.join("<br>") || "—";
 }
 

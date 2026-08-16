@@ -104,6 +104,51 @@ const PRODUTOS = {
       }
     ]
   },
+  picaretas: {
+    titulo: "Picareta 3x3",
+    exclusivo: true,
+    cor: "#00d4ff",
+    itens: [
+      {
+        id: "picareta_diamante",
+        nome: "Picareta 3x3 Diamante",
+        preco: 25.00,
+        moeda: "USD",
+        tebexId: null,
+        maxQtd: 1,
+        cor: "#00d4ff",
+        icone: "⛏",
+        imagem: "assets/kit-diamante.webp",
+        imagemKit: "assets/kit-diamante.webp",
+        descricao: "Mine em área 3x3 com eficiência de diamante.",
+        beneficios: [
+          "Mina blocos em área 3x3",
+          "Ferramenta de Diamante",
+          "Eficiência aprimorada",
+          "Entrega automática no servidor"
+        ]
+      },
+      {
+        id: "picareta_netherite",
+        nome: "Picareta 3x3 Netherite",
+        preco: 40.00,
+        moeda: "USD",
+        tebexId: null,
+        maxQtd: 1,
+        cor: "#b060ff",
+        icone: "⛏",
+        imagem: "assets/kit-netherite.webp",
+        imagemKit: "assets/kit-netherite.webp",
+        descricao: "Mine em área 3x3 com o poder da netherite.",
+        beneficios: [
+          "Mina blocos em área 3x3",
+          "Ferramenta de Netherite",
+          "Eficiência aprimorada",
+          "Entrega automática no servidor"
+        ]
+      }
+    ]
+  },
   extras: {
     titulo: "Extras",
     exclusivo: false,

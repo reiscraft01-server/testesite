@@ -1,6 +1,6 @@
 class Carrinho {
   constructor() {
-    this.state = { vip: null, homes: 0, desban: false, bp: false };
+    this.state = { vip: null, homes: 0, desban: false, bp: false, picareta: null };
     this.listeners = [];
   }
 
@@ -29,6 +29,26 @@ class Carrinho {
 
   removerVip() {
     this.state.vip = null;
+    this._notify();
+  }
+
+  adicionarPicareta(produto) {
+    const anterior = this.state.picareta;
+    if (anterior && anterior.id !== produto.id) {
+      this.state.picareta = produto;
+      this._notify();
+      return { substituido: true, anterior: anterior.nome, novo: produto.nome };
+    }
+    if (anterior && anterior.id === produto.id) {
+      return { substituido: false, jaTem: true };
+    }
+    this.state.picareta = produto;
+    this._notify();
+    return { substituido: false };
+  }
+
+  removerPicareta() {
+    this.state.picareta = null;
     this._notify();
   }
 
@@ -82,6 +102,7 @@ class Carrinho {
     t += this.state.homes * (getProduto("home")?.preco ?? 0);
     if (this.state.desban) t += getProduto("desban")?.preco ?? 0;
     if (this.state.bp) t += getProduto("kingspass")?.preco ?? 0;
+    if (this.state.picareta) t += this.state.picareta.preco;
     return t;
   }
 
@@ -91,6 +112,7 @@ class Carrinho {
     if (this.state.homes > 0) q += this.state.homes;
     if (this.state.desban) q++;
     if (this.state.bp) q++;
+    if (this.state.picareta) q++;
     return q;
   }
 
@@ -111,6 +133,9 @@ class Carrinho {
       const bp = getProduto("kingspass");
       produtos.push({ id: "kingspass", nome: "King's Pass", preco: bp.preco, quantidade: 1, tipo: "extra" });
     }
+    if (this.state.picareta) {
+      produtos.push({ id: this.state.picareta.id, nome: this.state.picareta.nome, preco: this.state.picareta.preco, quantidade: 1, tipo: "picareta" });
+    }
     return produtos;
   }
 
@@ -129,11 +154,14 @@ class Carrinho {
       const bp = getProduto("kingspass");
       if (bp.tebexId) items.push({ package_id: bp.tebexId, quantity: 1 });
     }
+    if (this.state.picareta) {
+      if (this.state.picareta.tebexId) items.push({ package_id: this.state.picareta.tebexId, quantity: 1 });
+    }
     return items;
   }
 
   limpar() {
-    this.state = { vip: null, homes: 0, desban: false, bp: false };
+    this.state = { vip: null, homes: 0, desban: false, bp: false, picareta: null };
     this._notify();
   }
 }
