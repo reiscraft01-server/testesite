@@ -29,14 +29,15 @@
 - VIP Rei: 7588032 ($9.78)
 - Home Adicional: 7588036 ($0.49)
 - Desban: 7588047 ($9.78)
-- Picareta 3x3 Diamante: `null` (criar no painel — comando com `{username}`)
-- Picareta 3x3 Netherite: `null` (criar no painel — comando com `{username}`)
+- Picareta 3x3 Diamante: 7627769 ($4.88 ≈ R$ 25,00) — comando `/pickaxe3x3 diamond {username}`
+- Picareta 3x3 Netherite: 7627776 ($7.82 ≈ R$ 40,00) — comando `/pickaxe3x3 netherite {username}`
+- King's Pass: `null` — **entrega MANUAL** (decisão do dono); não criou pacote/pedido ainda
 
 ## Produto: Picareta 3x3
 
 - Categoria `picaretas` em `js/products.js` com `exclusivo: true` — só UMA variação no carrinho por vez (Diamante R$ 25,00 / Netherite R$ 40,00, exibidos em R$)
 - Cart: slot `picareta` no estado (`js/cart.js`) + métodos `adicionarPicareta()`/`removerPicareta()`; payload `picareta: "<id>"` em `registrarPedido()` (`js/checkout.js`)
-- `tebexId: null` → botão "🎫 Em breve" desabilitado até criar os pacotes no painel
+- `tebexId: 7627769` (Diamante) e `7627776` (Netherite) — pacotes criados no painel em 18/08/2026; botão "🎫 Em breve" deixou de aparecer
 - Entrega automática (comando Tebex com `{username}`) → `status: "completed"` na criação; admin mostra `⛏ Picareta 3x3 ...` na coluna Produtos
 - ⚠️ Requer coluna `picareta text` na tabela `orders` (SQL Editor: `ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS picareta text;`)
 
